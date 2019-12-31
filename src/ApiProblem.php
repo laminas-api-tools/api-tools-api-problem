@@ -1,15 +1,17 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem;
+namespace Laminas\ApiTools\ApiProblem;
 
 use Exception;
+use Laminas\ApiTools\ApiProblem\Exception\InvalidArgumentException;
+use Laminas\ApiTools\ApiProblem\Exception\ProblemExceptionInterface;
 use Throwable;
-use ZF\ApiProblem\Exception\InvalidArgumentException;
-use ZF\ApiProblem\Exception\ProblemExceptionInterface;
 
 /**
  * Object describing an API-Problem payload.

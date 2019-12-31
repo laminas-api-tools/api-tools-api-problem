@@ -57,7 +57,7 @@ chapter on :ref:`resource controllers <basics.controllers>`.
 
     return array(
         // ...
-        'zf-rest' => array(
+        'api-tools-rest' => array(
             'resources' => array(
                 'UserResourceController' => array(
                     'listener'                => 'UserListener',
@@ -84,7 +84,7 @@ metadata and hydrator maps for our resources.
 
     return array(
         // ...
-        'zf-rest' => array(
+        'api-tools-rest' => array(
             // ...
             'metadata_map' => array(
                 'User' => array(
