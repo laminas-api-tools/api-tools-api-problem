@@ -1,15 +1,17 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem\Listener;
+namespace Laminas\ApiTools\ApiProblem\Listener;
 
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\Mvc\MvcEvent;
-use Zend\View\Exception\ExceptionInterface as ViewExceptionInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Mvc\MvcEvent;
+use Laminas\View\Exception\ExceptionInterface as ViewExceptionInterface;
 
 /**
  * RenderErrorListener

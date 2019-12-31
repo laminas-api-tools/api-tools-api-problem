@@ -1,12 +1,14 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem;
+namespace Laminas\ApiTools\ApiProblem;
 
-use Zend\Http\Response;
+use Laminas\Http\Response;
 
 /**
  * Represents an ApiProblem response payload
@@ -65,7 +67,7 @@ class ApiProblemResponse extends Response
      * Proxies to parent class, but then checks if we have an content-type
      * header; if not, sets it, with a value of "application/problem+json".
      *
-     * @return \Zend\Http\Headers
+     * @return \Laminas\Http\Headers
      */
     public function getHeaders()
     {
