@@ -1,43 +1,47 @@
 {
-    "name": "zfcampus/zf-api-problem",
-    "description": "ZF2 Module providing API-Problem assets and rendering",
-    "type": "library",
+    "name": "laminas-api-tools/api-tools-api-problem",
+    "description": "Laminas Module providing API-Problem assets and rendering",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
-        "zend",
+        "laminas",
+        "api-tools",
         "module",
         "rest",
         "api-problem"
     ],
-    "homepage": "http://apigility.org/",
+    "homepage": "https://api-tools.getlaminas.org",
     "support": {
-        "email": "apigility-users@zend.com",
-        "irc": "irc://irc.freenode.net/apigility",
-        "source": "https://github.com/zfcampus/zf-api-problem",
-        "issues": "https://github.com/zfcampus/zf-api-problem/issues"
+        "docs": "https://api-tools.getlaminas.org/documentation",
+        "issues": "https://github.com/laminas-api-tools/api-tools-api-problem/issues",
+        "source": "https://github.com/laminas-api-tools/api-tools-api-problem",
+        "rss": "https://github.com/laminas-api-tools/api-tools-api-problem/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
-    "repositories": [
-        { "type": "composer", "url": "https://packages.zendframework.com" }
-    ],
-    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true
+    },
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zend-eventmanager": "dev-develop",
-        "zendframework/zend-json": "dev-develop",
-        "zendframework/zend-mvc": "dev-develop",
-        "zendframework/zend-view": "dev-develop"
+        "laminas/laminas-eventmanager": "dev-develop",
+        "laminas/laminas-json": "dev-develop",
+        "laminas/laminas-mvc": "dev-develop",
+        "laminas/laminas-view": "dev-develop",
+        "laminas/laminas-zendframework-bridge": "^1.0"
     },
     "require-dev": {
-        "phpunit/PHPUnit": "3.7.*",
-        "zendframework/zend-console": "dev-develop",
-        "zendframework/zend-http": "dev-develop",
-        "zendframework/zend-loader": "dev-develop"
+        "laminas/laminas-console": "dev-develop",
+        "laminas/laminas-http": "dev-develop",
+        "laminas/laminas-loader": "dev-develop",
+        "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "psr-0": {
-            "ZF\\ApiProblem\\": "src/",
-            "ZFTest\\": "test/"
+            "Laminas\\ApiTools\\ApiProblem\\": "src/",
+            "LaminasTest\\ApiTools\\": "test/"
         }
+    },
+    "replace": {
+        "zfcampus/zf-api-problem": "self.version"
     }
 }
