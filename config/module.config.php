@@ -1,10 +1,12 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem;
+namespace Laminas\ApiTools\ApiProblem;
 
 return [
     'service_manager' => [
@@ -13,6 +15,17 @@ return [
             RenderErrorListener::class => Listener\RenderErrorListener::class,
             ApiProblemRenderer::class  => View\ApiProblemRenderer::class,
             ApiProblemStrategy::class  => View\ApiProblemStrategy::class,
+
+            // Legacy Zend Framework aliases
+            \ZF\ApiProblem\ApiProblemListener::class => ApiProblemListener::class,
+            \ZF\ApiProblem\RenderErrorListener::class => RenderErrorListener::class,
+            \ZF\ApiProblem\ApiProblemRenderer::class => ApiProblemRenderer::class,
+            \ZF\ApiProblem\ApiProblemStrategy::class => ApiProblemStrategy::class,
+            \ZF\ApiProblem\Listener\ApiProblemListener::class => Listener\ApiProblemListener::class,
+            \ZF\ApiProblem\Listener\RenderErrorListener::class => Listener\RenderErrorListener::class,
+            \ZF\ApiProblem\Listener\SendApiProblemResponseListener::class => Listener\SendApiProblemResponseListener::class,
+            \ZF\ApiProblem\View\ApiProblemRenderer::class => View\ApiProblemRenderer::class,
+            \ZF\ApiProblem\View\ApiProblemStrategy::class => View\ApiProblemStrategy::class,
         ],
         'factories' => [
             Listener\ApiProblemListener::class             => Factory\ApiProblemListenerFactory::class,
@@ -29,7 +42,7 @@ return [
         'display_exceptions' => false,
     ],
 
-    'zf-api-problem' => [
+    'api-tools-api-problem' => [
         // Accept types that should allow ApiProblem responses
         // 'accept_filters' => $stringOrArray,
 

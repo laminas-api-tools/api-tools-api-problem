@@ -1,13 +1,15 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem\Factory;
+namespace Laminas\ApiTools\ApiProblem\Factory;
 
 use Interop\Container\ContainerInterface;
-use ZF\ApiProblem\View\ApiProblemRenderer;
+use Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer;
 
 class ApiProblemRendererFactory
 {

@@ -1,4 +1,4 @@
-.. _zfhal.options:
+.. _laminashal.options:
 
 Whitelisting HTTP Methods
 =========================
@@ -41,7 +41,7 @@ What happens if a malicious user tries something else? You should respond with a
     HTTP/1.1 405 Not Allowed
     Allow: GET, POST
 
-ZFHal bakes this into its ``ZF\Hal\ResourceController``
+LaminasHal bakes this into its ``Laminas\ApiTools\Hal\ResourceController``
 implementation, allowing you to specify via configuration which methods are
 allowed both for collections and individual resources handled by the controller.
 
