@@ -23,7 +23,7 @@ completely up to you.
         public function fetchAll();
     }
 
-Next, I'll create a resource listener. This example assumes you are using Zend
+Next, I'll create a resource listener. This example assumes you are using Laminas
 Framework 2.2.0 or above, which includes the ``AbstractListenerAggregate``; if
 you are using a previous version, you will need to manually implement the
 ``ListenerAggregateInterface`` and its ``detach()`` method.
@@ -33,11 +33,11 @@ you are using a previous version, you will need to manually implement the
 
     namespace Paste;
 
-    use ZF\Rest\Exception\CreationException;
-    use ZF\Rest\Exception\DomainException;
-    use ZF\Rest\ResourceEvent;
-    use Zend\EventManager\AbstractListenerAggregate;
-    use Zend\EventManager\EventManagerInterface;
+    use Laminas\ApiTools\Rest\Exception\CreationException;
+    use Laminas\ApiTools\Rest\Exception\DomainException;
+    use Laminas\ApiTools\Rest\ResourceEvent;
+    use Laminas\EventManager\AbstractListenerAggregate;
+    use Laminas\EventManager\EventManagerInterface;
 
     class PasteResourceListener extends AbstractListenerAggregate
     {
@@ -127,13 +127,13 @@ example, we'll ignore that for now. The import route is ``paste/api``, which is
 our RESTful endpoint.
 
 Next, let's define the controller configuration. Again, inside our module
-configuration, we'll add configuration, this time under the ``zf-rest``
+configuration, we'll add configuration, this time under the ``api-tools-rest``
 key and its ``resources`` subkey.
 
 .. code-block:: php
     :linenos:
 
-    'zf-rest' => array(
+    'api-tools-rest' => array(
         'resources' => array(
             'Paste\ApiController' => array(
                 'identifier'              => 'Pastes',
@@ -170,7 +170,7 @@ factory inside our ``Module`` class. The full module class is presented here.
         public function getAutoloaderConfig()
         {
             return array(
-                'Zend\Loader\StandardAutoloader' => array(
+                'Laminas\Loader\StandardAutoloader' => array(
                     'namespaces' => array(
                         __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                     ),

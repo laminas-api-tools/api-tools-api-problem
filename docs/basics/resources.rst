@@ -37,8 +37,8 @@ Event listeners receive an instance of ``PhlyRestfully\ResourceEvent``, which
 also composes the route matches and query parameters from the request. You may
 retrieve them from the event instance using the following methods:
 
-- ``getQueryParams()`` (returns a ``Zend\Stdlib\Parameters`` instance)
-- ``getRouteMatch()`` (returns a ``Zend\Mvc\Router\RouteMatch`` instance)
+- ``getQueryParams()`` (returns a ``Laminas\Stdlib\Parameters`` instance)
+- ``getRouteMatch()`` (returns a ``Laminas\Mvc\Router\RouteMatch`` instance)
 - ``getQueryParam($name, $default = null)``
 - ``getRouteParam($name, $default = null)``
 
@@ -124,11 +124,11 @@ might handle them.
         return $user;
     }
 
-Typically, you will create a ``Zend\EventManager\ListenerAggregateInterface``
+Typically, you will create a ``Laminas\EventManager\ListenerAggregateInterface``
 implementation that will contain all of your listeners, so that you can also
 compose in other classes such as data mappers, a service layer, etc. Read about
-`listener aggregates in the ZF2 documentation
-<http://zf2.readthedocs.org/en/latest/tutorials/tutorial.eventmanager.html#listener-aggregates>`_
+`listener aggregates in the Laminas documentation
+<http://laminas.readthedocs.org/en/latest/tutorials/tutorial.eventmanager.html#listener-aggregates>`_
 if you are unfamiliar with them.
 
 In a later section, I will show you how to wire your listener aggregate to a

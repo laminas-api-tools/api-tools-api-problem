@@ -3,13 +3,13 @@
 Hydrators
 =========
 
-``Zend\Stdlib\Hydrator`` offers a general-purpose solution for mapping arrays to
-objects (hydration) and objects to arrays (extraction). In ZFRest,
+``Laminas\Stdlib\Hydrator`` offers a general-purpose solution for mapping arrays to
+objects (hydration) and objects to arrays (extraction). In LaminasRest,
 hydrators are used during rendering for this second operation, extraction, so
 that resources may be represented via JSON.
 
-Within ZFRest, ``ZF\Rest\View\JsonRenderer`` delegates to
-``ZF\Rest\Plugin\HalLinks`` in order to return a representation of a
+Within LaminasRest, ``Laminas\ApiTools\Rest\View\JsonRenderer`` delegates to
+``Laminas\ApiTools\Rest\Plugin\HalLinks`` in order to return a representation of a
 resource or collection. This was done to allow you, the user, to override how
 rendering is accomplished if desired; you can extend the ``HalLinks`` plugin and
 register your own version as a controller plugin and view helper.
@@ -66,7 +66,7 @@ Once you have the plugin, you can register class/hydrator pairs using the
     :linenos:
 
     // Instantiate the hydrator instance directly:
-    $hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
+    $hydrator = new \Laminas\Stdlib\Hydrator\ClassMethods();
 
     // Or pull it from the HydratorManager:
     $hydrators = $services->get('HydratorManager');
@@ -96,13 +96,13 @@ Configuration-driven hydrator maps
 You can specify hydrators to use with the objects you return from your resources
 via configuration, and you can specify both a map of class/hydrator service
 pairs as well as a default hydrator to use as a fallback. As an example,
-consider the following `config/autoload/zf-rest.global.php` file:
+consider the following `config/autoload/api-tools-rest.global.php` file:
 
 .. code-block:: php
     :linenos:
 
     return array(
-        'zf-rest' => array(
+        'api-tools-rest' => array(
             'renderer' => array(
                 'default_hydrator' => 'ArraySerializable',
                 'hydrators' => array(
@@ -113,7 +113,7 @@ consider the following `config/autoload/zf-rest.global.php` file:
         ),
     );
 
-The above specifies ``Zend\Stdlib\Hydrator\ArraySerializable`` as the default
+The above specifies ``Laminas\Stdlib\Hydrator\ArraySerializable`` as the default
 hydrator, and maps the ``ObjectProperty`` hydrator to the ``Foo`` resource, and the
 ``Reflection`` hydrator to the ``Bar`` resource. Note that the short name for
 the hydrator is used; ``HalLinks`` composes the ``HydratorManager`` service by
