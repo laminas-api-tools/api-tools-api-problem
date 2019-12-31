@@ -1,14 +1,16 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem\Factory;
+namespace Laminas\ApiTools\ApiProblem\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use ZF\ApiProblem\View\ApiProblemStrategy;
+use Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class ApiProblemStrategyFactory implements FactoryInterface
 {
@@ -18,6 +20,6 @@ class ApiProblemStrategyFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new ApiProblemStrategy($serviceLocator->get('ZF\ApiProblem\ApiProblemRenderer'));
+        return new ApiProblemStrategy($serviceLocator->get('Laminas\ApiTools\ApiProblem\ApiProblemRenderer'));
     }
 }

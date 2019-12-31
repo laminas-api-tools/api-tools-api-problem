@@ -1,14 +1,16 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem\Factory;
+namespace Laminas\ApiTools\ApiProblem\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use ZF\ApiProblem\Listener\ApiProblemListener;
+use Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class ApiProblemListenerFactory implements FactoryInterface
 {
@@ -25,8 +27,8 @@ class ApiProblemListenerFactory implements FactoryInterface
             $config = $serviceLocator->get('Config');
         }
 
-        if (isset($config['zf-api-problem']['accept_filters'])) {
-            $filters = $config['zf-api-problem']['accept_filters'];
+        if (isset($config['api-tools-api-problem']['accept_filters'])) {
+            $filters = $config['api-tools-api-problem']['accept_filters'];
         }
 
         return new ApiProblemListener($filters);
