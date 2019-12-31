@@ -6,14 +6,15 @@
  * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace Laminas\ApiTools\ApiProblem\Exception;
+$config = array(
+    /*
+     * Specify what MIME types the ApiProblemListener will respond to.
+     * DEFAULT: application/json
+     */
+    //'accept_filter' => 'application/hal+json,application/api-problem+json,application/json',
+);
 
-/**
- * Interface for exceptions that can provide additional API Problem details
- */
-interface ProblemExceptionInterface
-{
-    public function getAdditionalDetails();
-    public function getProblemType();
-    public function getTitle();
-}
+/* No need to edit below this line */
+return array(
+    'api-tools-api-problem' => $config,
+);

@@ -1,19 +1,21 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZFTest\ApiProblem\Listener;
+namespace LaminasTest\ApiTools\ApiProblem\Listener;
 
+use Laminas\ApiTools\ApiProblem\Exception\DomainException;
+use Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener;
+use Laminas\Console\Request as ConsoleRequest;
+use Laminas\Console\Response as ConsoleResponse;
+use Laminas\Http\Request;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\MvcEvent;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Console\Request as ConsoleRequest;
-use Zend\Console\Response as ConsoleResponse;
-use Zend\Http\Request;
-use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
-use ZF\ApiProblem\Exception\DomainException;
-use ZF\ApiProblem\Listener\ApiProblemListener;
 
 class ApiProblemListenerTest extends TestCase
 {
@@ -44,9 +46,9 @@ class ApiProblemListenerTest extends TestCase
 
         $this->assertTrue($event->propagationIsStopped());
         $result = $event->getResult();
-        $this->assertInstanceOf('ZF\ApiProblem\View\ApiProblemModel', $result);
+        $this->assertInstanceOf('Laminas\ApiTools\ApiProblem\View\ApiProblemModel', $result);
         $problem = $result->getApiProblem();
-        $this->assertInstanceOf('ZF\ApiProblem\ApiProblem', $problem);
+        $this->assertInstanceOf('Laminas\ApiTools\ApiProblem\ApiProblem', $problem);
         $this->assertEquals(400, $problem->http_status);
         $this->assertSame($event->getParam('exception'), $problem->detail);
     }

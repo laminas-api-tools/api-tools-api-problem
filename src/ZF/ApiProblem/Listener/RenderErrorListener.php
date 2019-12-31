@@ -1,19 +1,21 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem\Listener;
+namespace Laminas\ApiTools\ApiProblem\Listener;
 
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\Http\Request as HttpRequest;
-use Zend\Mvc\MvcEvent;
-use Zend\View\Model\ModelInterface;
-use ZF\ApiProblem\ApiProblem;
-use ZF\ApiProblem\Exception\ProblemExceptionInterface;
-use ZF\ApiProblem\View\ApiProblemModel;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\Exception\ProblemExceptionInterface;
+use Laminas\ApiTools\ApiProblem\View\ApiProblemModel;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Http\Request as HttpRequest;
+use Laminas\Mvc\MvcEvent;
+use Laminas\View\Model\ModelInterface;
 
 /**
  * RenderErrorListener
@@ -66,7 +68,7 @@ class RenderErrorListener extends AbstractListenerAggregate
 
         $exception   = $e->getParam('exception');
         if ($exception instanceof \Exception
-            && !$exception instanceof \Zend\View\Exception\ExceptionInterface
+            && !$exception instanceof \Laminas\View\Exception\ExceptionInterface
         ) {
             $code = $exception->getCode();
             if ($code >= 100 && $code <= 600) {

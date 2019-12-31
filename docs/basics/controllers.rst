@@ -4,7 +4,7 @@ ResourceControllers
 ===================
 
 While the ``Resource`` hands off work to your domain logic,
-``ZF\Rest\ResourceController`` mediates between the incoming request and
+``Laminas\ApiTools\Rest\ResourceController`` mediates between the incoming request and
 the ``Resource``, as well as ensures an appropriate response payload is created
 and returned.
 
@@ -30,10 +30,10 @@ following:
                 $events->setIdentifiers('PasteResource`);
                 $events->attach($persistence);
 
-                $resource    = new ZF\Rest\Resource();
+                $resource    = new Laminas\ApiTools\Rest\Resource();
                 $resource->setEventManager($events);
 
-                $controller = new ZF\Rest\ResourceController('PasteController`);
+                $controller = new Laminas\ApiTools\Rest\ResourceController('PasteController`);
                 $controller->setResource($resource);
                 $controller->setRoute('paste/api');
                 $controller->setCollectionName('pastes');
@@ -61,9 +61,9 @@ Essentially, three steps are taken:
   ``Resource`` instance and some configuration.
 
 Considering that most ``ResourceController`` instances follow the same pattern,
-ZFRest provides an abstract factory for controllers that does the work
+LaminasRest provides an abstract factory for controllers that does the work
 for you. To use it, you will provide a ``resources`` subkey in your
-``zf-rest`` configuration, with controller name/configuration pairs. As an
+``api-tools-rest`` configuration, with controller name/configuration pairs. As an
 example:
 
 .. code-block:: php
@@ -72,16 +72,16 @@ example:
     // In a module's configuration, or the autoloadable configuration of your
     // application:
     return array(
-        'zf-rest' => array(
+        'api-tools-rest' => array(
             'resources' => array(
                 // Key is the service name for the controller; value is
                 // configuration
                 'MyApi\Controller\Contacts' => array(
                     // Name of the controller class to use, if other than
-                    // ZF\Rest\ResourceController. Must extend
-                    // ZF\Rest\ResourceController, however, to be valid.
+                    // Laminas\ApiTools\Rest\ResourceController. Must extend
+                    // Laminas\ApiTools\Rest\ResourceController, however, to be valid.
                     // (OPTIONAL)
-                    'controller_class' => 'ZF\Rest\ResourceController',
+                    'controller_class' => 'Laminas\ApiTools\Rest\ResourceController',
 
                     // Event identifier for the resource controller. By default,
                     // the resource name is used; you can use a different
@@ -104,7 +104,7 @@ example:
                     // Accept criteria (which accept headers will be allowed)
                     // (OPTIONAL)
                     'accept_criteria' => array(
-                        'ZF\Rest\View\RestfulJsonModel' => array(
+                        'Laminas\ApiTools\Rest\View\RestfulJsonModel' => array(
                             'application/json',
                             'text/json',
                         ),
@@ -170,7 +170,7 @@ useful for implementing logging, caching, authentication and authorization
 checks, etc.
 
 Note that the above configuration assumes that you are defining a
-``Zend\EventManager\ListenerAggregateInterface`` implementation to attach to the
+``Laminas\EventManager\ListenerAggregateInterface`` implementation to attach to the
 ``Resource``. This is a good practice anyways, as it keeps the logic
 encapsulated, and allows you to have stateful listeners -- which is particularly
 useful as most often you will consume a mapper or similar within your listeners
