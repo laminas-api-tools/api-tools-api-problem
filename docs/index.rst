@@ -1,10 +1,10 @@
-.. ZF2 module for implementing RESTful JSON APIs in Hypermedia Application
+.. Laminas module for implementing RESTful JSON APIs in Hypermedia Application
    Language (HAL)
 
 Welcome to PhlyRestfully!
 =========================
 
-PhlyRestfully is a `Zend Framework 2 <http://framework.zend.com>`_ module for
+PhlyRestfully is a `Laminas <https://getlaminas.org>`_ module for
 implementing RESTful JSON APIs in `Hypermedia Application Language (HAL)
 <http://stateless.co/hal_specification.html>`_. It provides a workflow for
 mapping persistence to resources to expose via your API.
