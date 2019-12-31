@@ -1,4 +1,4 @@
-Api-Problem: ZF2 Module for API-Problem representations
+Api-Problem: Laminas Module for API-Problem representations
 =======================================================
 
 This module provides data structures and rendering for the API-Problem format.
