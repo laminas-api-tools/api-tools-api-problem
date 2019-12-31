@@ -1,22 +1,24 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem\Listener;
+namespace Laminas\ApiTools\ApiProblem\Listener;
 
 use Exception;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
+use Laminas\ApiTools\ApiProblem\View\ApiProblemModel;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Http\Header\Accept as AcceptHeader;
+use Laminas\Http\Request as HttpRequest;
+use Laminas\Mvc\MvcEvent;
+use Laminas\View\Model\ModelInterface;
 use Throwable;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\Http\Header\Accept as AcceptHeader;
-use Zend\Http\Request as HttpRequest;
-use Zend\Mvc\MvcEvent;
-use Zend\View\Model\ModelInterface;
-use ZF\ApiProblem\ApiProblem;
-use ZF\ApiProblem\ApiProblemResponse;
-use ZF\ApiProblem\View\ApiProblemModel;
 
 /**
  * ApiProblemListener.
@@ -68,7 +70,7 @@ class ApiProblemListener extends AbstractListenerAggregate
 
         $sharedEvents = $events->getSharedManager();
         $sharedEvents->attach(
-            'Zend\Stdlib\DispatchableInterface',
+            'Laminas\Stdlib\DispatchableInterface',
             MvcEvent::EVENT_DISPATCH,
             [$this, 'onDispatch'],
             100
@@ -123,12 +125,12 @@ class ApiProblemListener extends AbstractListenerAggregate
         $services = $app->getServiceManager();
         $config = $services->get('config');
 
-        if (! isset($config['zf-api-problem']['render_error_controllers'])) {
+        if (! isset($config['api-tools-api-problem']['render_error_controllers'])) {
             return;
         }
 
         $controller = $e->getRouteMatch()->getParam('controller');
-        $controllers = $config['zf-api-problem']['render_error_controllers'];
+        $controllers = $config['api-tools-api-problem']['render_error_controllers'];
         if (! in_array($controller, $controllers)) {
             // The current controller is not in our list of controllers to handle
             return;
@@ -136,7 +138,7 @@ class ApiProblemListener extends AbstractListenerAggregate
 
         // Attach the ApiProblem render.error listener
         $events = $app->getEventManager();
-        $services->get('ZF\ApiProblem\RenderErrorListener')->attach($events);
+        $services->get('Laminas\ApiTools\ApiProblem\RenderErrorListener')->attach($events);
     }
 
     /**

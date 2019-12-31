@@ -1,21 +1,23 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem;
+namespace Laminas\ApiTools\ApiProblem;
 
+use Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener;
+use Laminas\ApiTools\ApiProblem\Listener\SendApiProblemResponseListener;
+use Laminas\EventManager\EventManager;
+use Laminas\EventManager\SharedEventManager;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Mvc\SendResponseListener;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Zend\EventManager\EventManager;
-use Zend\EventManager\SharedEventManager;
-use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
-use Zend\Mvc\SendResponseListener;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use ZF\ApiProblem\Listener\ApiProblemListener;
-use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
 
 class ModuleTest extends TestCase
 {
@@ -53,7 +55,7 @@ class ModuleTest extends TestCase
     public function serviceLocator($service)
     {
         switch ($service) {
-            case 'ZF\ApiProblem\Listener\ApiProblemListener':
+            case 'Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener':
                 return new ApiProblemListener();
                 break;
             case 'SendResponseListener':
