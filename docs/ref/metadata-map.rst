@@ -5,14 +5,14 @@ Metadata Mapping
 
 If you have been reading the reference guide sequentially, almost every page has
 referred to this one at some point. The reason is that, for purposes of
-flexibility, ZFRest has needed to provide a low-level, configurable
+flexibility, LaminasRest has needed to provide a low-level, configurable
 mechanism that solves the problems of:
 
 - ensuring resources have the correct "self" relational link
 - ensuring resources are extracted to a JSON representation correctly
 - ensuring that embedded resources are rendered as embedded HAL resources
 
-To achieve this in a simpler fashion, ZFRest provides the ability to
+To achieve this in a simpler fashion, LaminasRest provides the ability to
 create a "metadata map." The metadata map maps a class to a set of "rules" that
 define whether the class represents a resource or collection, the information
 necessary to generate a "self" relational link, and a hydrator to use to extract
@@ -25,7 +25,7 @@ the :ref:`embedded resources section <ref/embedding-resources>`:
     :linenos:
 
     return array(
-        'zf-rest' => array(
+        'api-tools-rest' => array(
             'metadata_map' => array(
                 'User' => array(
                     'hydrator'        => 'ObjectProperty',
@@ -59,7 +59,7 @@ Metadata options
 The following options are available for metadata maps:
 
 - **hydrator**: the fully qualified class name of a hydrator, or a service name
-  ``Zend\Stdlib\Hydrator\HydratorPluginManager`` recognizes,  to use to extract
+  ``Laminas\Stdlib\Hydrator\HydratorPluginManager`` recognizes,  to use to extract
   the resource. (**OPTIONAL**)
 - **identifier_name**: the resource parameter corresponding to the identifier;
   defaults to "id". (**OPTIONAL**)
@@ -94,7 +94,7 @@ easy to understand what types of objects the collection contains, and allows for
 domain-specific logic surrounding the collection.
 
 However, that poses some problems if you want to :ref:`paginate your collection
-<ref/collections-and-pagination>`, as instances of ``Zend\Paginator\Paginator``
+<ref/collections-and-pagination>`, as instances of ``Laminas\Paginator\Paginator``
 are identified by ``HalLinks`` when rendering collections in order to create
 appropriate relational links.
 
@@ -103,7 +103,7 @@ The solution to that is to create an empty extension of ``Paginator``:
 .. code-block:: php
     :linenos:
 
-    use Zend\Paginator\Paginator;
+    use Laminas\Paginator\Paginator;
 
     class Phones extends Paginator
     {

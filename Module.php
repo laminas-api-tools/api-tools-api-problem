@@ -1,16 +1,18 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem;
+namespace Laminas\ApiTools\ApiProblem;
 
-use Zend\Mvc\ResponseSender\SendResponseEvent;
-use Zend\Mvc\MvcEvent;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Mvc\ResponseSender\SendResponseEvent;
 
 /**
- * ZF2 module
+ * Laminas module
  */
 class Module
 {
@@ -22,8 +24,8 @@ class Module
     public function getAutoloaderConfig()
     {
         return array(
-            'Zend\Loader\StandardAutoloader' => array('namespaces' => array(
-                __NAMESPACE__ => __DIR__ . '/src/ZF/ApiProblem/',
+            'Laminas\Loader\StandardAutoloader' => array('namespaces' => array(
+                __NAMESPACE__ => __DIR__ . '/src/Laminas/ApiProblem/',
             ))
         );
     }
@@ -43,7 +45,7 @@ class Module
      *
      * Attaches a render event.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  \Laminas\Mvc\MvcEvent $e
      */
     public function onBootstrap($e)
     {
@@ -51,13 +53,13 @@ class Module
         $serviceManager = $app->getServiceManager();
         $eventManager   = $app->getEventManager();
 
-        $eventManager->attach($serviceManager->get('ZF\ApiProblem\ApiProblemListener'));
+        $eventManager->attach($serviceManager->get('Laminas\ApiTools\ApiProblem\ApiProblemListener'));
         $eventManager->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 100);
 
         $sendResponseListener = $serviceManager->get('SendResponseListener');
         $sendResponseListener->getEventManager()->attach(
             SendResponseEvent::EVENT_SEND_RESPONSE,
-            $serviceManager->get('ZF\ApiProblem\Listener\SendApiProblemResponseListener'),
+            $serviceManager->get('Laminas\ApiTools\ApiProblem\Listener\SendApiProblemResponseListener'),
             -500
         );
     }
@@ -67,7 +69,7 @@ class Module
      *
      * Attaches a rendering/response strategy to the View.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  \Laminas\Mvc\MvcEvent $e
      */
     public function onRender($e)
     {
@@ -80,7 +82,7 @@ class Module
 
             // register at high priority, to "beat" normal json strategy registered
             // via view manager, as well as HAL strategy.
-            $events->attach($services->get('ZF\ApiProblem\ApiProblemStrategy'), 400);
+            $events->attach($services->get('Laminas\ApiTools\ApiProblem\ApiProblemStrategy'), 400);
         }
     }
 }
