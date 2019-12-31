@@ -1,15 +1,17 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZF\ApiProblem\Listener;
+namespace Laminas\ApiTools\ApiProblem\Listener;
 
-use Zend\Http\Response as HttpResponse;
-use Zend\Mvc\ResponseSender\HttpResponseSender;
-use Zend\Mvc\ResponseSender\SendResponseEvent;
-use ZF\ApiProblem\ApiProblemResponse;
+use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
+use Laminas\Http\Response as HttpResponse;
+use Laminas\Mvc\ResponseSender\HttpResponseSender;
+use Laminas\Mvc\ResponseSender\SendResponseEvent;
 
 /**
  * Send ApiProblem responses

@@ -1,23 +1,25 @@
 <?php
+
 /**
- * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
+ * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
  */
 
 return array(
     'service_manager' => array(
         'aliases'   => array(
-            'ZF\ApiProblem\ApiProblemListener'  => 'ZF\ApiProblem\Listener\ApiProblemListener',
-            'ZF\ApiProblem\RenderErrorListener' => 'ZF\ApiProblem\Listener\RenderErrorListener',
-            'ZF\ApiProblem\ApiProblemRenderer'  => 'ZF\ApiProblem\View\ApiProblemRenderer',
-            'ZF\ApiProblem\ApiProblemStrategy'  => 'ZF\ApiProblem\View\ApiProblemStrategy',
+            'Laminas\ApiTools\ApiProblem\ApiProblemListener'  => 'Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener',
+            'Laminas\ApiTools\ApiProblem\RenderErrorListener' => 'Laminas\ApiTools\ApiProblem\Listener\RenderErrorListener',
+            'Laminas\ApiTools\ApiProblem\ApiProblemRenderer'  => 'Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer',
+            'Laminas\ApiTools\ApiProblem\ApiProblemStrategy'  => 'Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy',
         ),
         'factories' => array(
-            'ZF\ApiProblem\Listener\ApiProblemListener'             => 'ZF\ApiProblem\Factory\ApiProblemListenerFactory',
-            'ZF\ApiProblem\Listener\RenderErrorListener'            => 'ZF\ApiProblem\Factory\RenderErrorListenerFactory',
-            'ZF\ApiProblem\Listener\SendApiProblemResponseListener' => 'ZF\ApiProblem\Factory\SendApiProblemResponseListenerFactory',
-            'ZF\ApiProblem\View\ApiProblemRenderer'                 => 'ZF\ApiProblem\Factory\ApiProblemRendererFactory',
-            'ZF\ApiProblem\View\ApiProblemStrategy'                 => 'ZF\ApiProblem\Factory\ApiProblemStrategyFactory',
+            'Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener'             => 'Laminas\ApiTools\ApiProblem\Factory\ApiProblemListenerFactory',
+            'Laminas\ApiTools\ApiProblem\Listener\RenderErrorListener'            => 'Laminas\ApiTools\ApiProblem\Factory\RenderErrorListenerFactory',
+            'Laminas\ApiTools\ApiProblem\Listener\SendApiProblemResponseListener' => 'Laminas\ApiTools\ApiProblem\Factory\SendApiProblemResponseListenerFactory',
+            'Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer'                 => 'Laminas\ApiTools\ApiProblem\Factory\ApiProblemRendererFactory',
+            'Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy'                 => 'Laminas\ApiTools\ApiProblem\Factory\ApiProblemStrategyFactory',
         )
     ),
 
@@ -27,7 +29,7 @@ return array(
         'display_exceptions' => false,
     ),
 
-    'zf-api-problem' => array(
+    'api-tools-api-problem' => array(
         // Accept types that should allow ApiProblem responses
         // 'accept_filters' => $stringOrArray,
 
