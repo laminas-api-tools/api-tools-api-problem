@@ -1,39 +1,44 @@
 {
-    "name": "zfcampus/zf-api-problem",
-    "description": "ZF2 Module providing API-Problem assets and rendering",
-    "type": "library",
+    "name": "laminas-api-tools/api-tools-api-problem",
+    "description": "Laminas Module providing API-Problem assets and rendering",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
-        "zend",
+        "laminas",
+        "api-tools",
         "module",
         "rest",
         "api-problem"
     ],
-    "homepage": "http://apigility.org/",
+    "homepage": "https://api-tools.getlaminas.org",
     "support": {
-        "email": "apigility-users@zend.com",
-        "irc": "irc://irc.freenode.net/apigility",
-        "source": "https://github.com/zfcampus/zf-api-problem",
-        "issues": "https://github.com/zfcampus/zf-api-problem/issues"
+        "docs": "https://api-tools.getlaminas.org/documentation",
+        "issues": "https://github.com/laminas-api-tools/api-tools-api-problem/issues",
+        "source": "https://github.com/laminas-api-tools/api-tools-api-problem",
+        "rss": "https://github.com/laminas-api-tools/api-tools-api-problem/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
             "dev-master": "1.2-dev",
             "dev-develop": "1.3-dev"
         },
-        "zf": {
-            "module": "ZF\\ApiProblem"
+        "laminas": {
+            "module": "Laminas\\ApiTools\\ApiProblem"
         }
     },
     "require": {
         "php": "^5.6 || ^7.0",
         "ext-json": "*",
-        "zendframework/zend-eventmanager": "^2.6.3 || ^3.0.1",
-        "zendframework/zend-http": "^2.5.4",
-        "zendframework/zend-json": "^2.6.1 || ^3.0",
-        "zendframework/zend-mvc": "^2.7.9 || ^3.0.2",
-        "zendframework/zend-view": "^2.8.1"
+        "laminas/laminas-eventmanager": "^2.6.3 || ^3.0.1",
+        "laminas/laminas-http": "^2.5.4",
+        "laminas/laminas-json": "^2.6.1 || ^3.0",
+        "laminas/laminas-mvc": "^2.7.9 || ^3.0.2",
+        "laminas/laminas-view": "^2.8.1",
+        "laminas/laminas-zendframework-bridge": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8",
@@ -41,12 +46,12 @@
     },
     "autoload": {
         "psr-4": {
-            "ZF\\ApiProblem\\": "src/"
+            "Laminas\\ApiTools\\ApiProblem\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ZFTest\\ApiProblem\\": "test/"
+            "LaminasTest\\ApiTools\\ApiProblem\\": "test/"
         }
     },
     "scripts": {
@@ -57,5 +62,8 @@
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "test": "phpunit"
+    },
+    "replace": {
+        "zfcampus/zf-api-problem": "self.version"
     }
 }
