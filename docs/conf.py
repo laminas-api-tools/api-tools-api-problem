@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PhlyRestfully - ZF2 module for creating RESTful JSON APIs'
+project = u'PhlyRestfully - Laminas module for creating RESTful JSON APIs'
 copyright = u'2013, Matthew Weier O\'Phinney'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -178,7 +178,7 @@ htmlhelp_basename = 'phlyrestfully'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'phlyrestfully.tex', u'PhlyRestfully - ZF2 module for creating RESTful JSON APIs',
+  ('index', 'phlyrestfully.tex', u'PhlyRestfully - Laminas module for creating RESTful JSON APIs',
    u'Matthew Weier O\'Phinney', 'manual'),
 ]
 

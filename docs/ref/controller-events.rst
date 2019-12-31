@@ -30,7 +30,7 @@ or collection returned, you could do the following:
         'getList.post',
     );
 
-    // Assuming $sharedEvents is a ZF2 SharedEventManager instance
+    // Assuming $sharedEvents is a Laminas SharedEventManager instance
     $sharedEvents->attach('Paste\ApiController', $methods, function ($e) {
         $resource = $e->getParam('resource', false);
         if (!$resource) {
