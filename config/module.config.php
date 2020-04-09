@@ -17,15 +17,17 @@ return [
             ApiProblemStrategy::class  => View\ApiProblemStrategy::class,
 
             // Legacy Zend Framework aliases
-            \ZF\ApiProblem\ApiProblemListener::class => ApiProblemListener::class,
-            \ZF\ApiProblem\RenderErrorListener::class => RenderErrorListener::class,
-            \ZF\ApiProblem\ApiProblemRenderer::class => ApiProblemRenderer::class,
-            \ZF\ApiProblem\ApiProblemStrategy::class => ApiProblemStrategy::class,
-            \ZF\ApiProblem\Listener\ApiProblemListener::class => Listener\ApiProblemListener::class,
-            \ZF\ApiProblem\Listener\RenderErrorListener::class => Listener\RenderErrorListener::class,
+            // @codingStandardsIgnoreStart
+            \ZF\ApiProblem\ApiProblemListener::class                      => ApiProblemListener::class,
+            \ZF\ApiProblem\RenderErrorListener::class                     => RenderErrorListener::class,
+            \ZF\ApiProblem\ApiProblemRenderer::class                      => ApiProblemRenderer::class,
+            \ZF\ApiProblem\ApiProblemStrategy::class                      => ApiProblemStrategy::class,
+            \ZF\ApiProblem\Listener\ApiProblemListener::class             => Listener\ApiProblemListener::class,
+            \ZF\ApiProblem\Listener\RenderErrorListener::class            => Listener\RenderErrorListener::class,
             \ZF\ApiProblem\Listener\SendApiProblemResponseListener::class => Listener\SendApiProblemResponseListener::class,
-            \ZF\ApiProblem\View\ApiProblemRenderer::class => View\ApiProblemRenderer::class,
-            \ZF\ApiProblem\View\ApiProblemStrategy::class => View\ApiProblemStrategy::class,
+            \ZF\ApiProblem\View\ApiProblemRenderer::class                 => View\ApiProblemRenderer::class,
+            \ZF\ApiProblem\View\ApiProblemStrategy::class                 => View\ApiProblemStrategy::class,
+            // @codingStandardsIgnoreEnd
         ],
         'factories' => [
             Listener\ApiProblemListener::class             => Factory\ApiProblemListenerFactory::class,
