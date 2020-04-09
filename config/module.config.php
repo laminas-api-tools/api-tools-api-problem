@@ -23,7 +23,8 @@ return [
             \ZF\ApiProblem\ApiProblemStrategy::class => ApiProblemStrategy::class,
             \ZF\ApiProblem\Listener\ApiProblemListener::class => Listener\ApiProblemListener::class,
             \ZF\ApiProblem\Listener\RenderErrorListener::class => Listener\RenderErrorListener::class,
-            \ZF\ApiProblem\Listener\SendApiProblemResponseListener::class => Listener\SendApiProblemResponseListener::class,
+            \ZF\ApiProblem\Listener\SendApiProblemResponseListener::class =>
+                Listener\SendApiProblemResponseListener::class,
             \ZF\ApiProblem\View\ApiProblemRenderer::class => View\ApiProblemRenderer::class,
             \ZF\ApiProblem\View\ApiProblemStrategy::class => View\ApiProblemStrategy::class,
         ],
