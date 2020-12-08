@@ -15,12 +15,17 @@ use PHPUnit\Framework\TestCase;
 
 class ApiProblemRendererTest extends TestCase
 {
-    protected function setUp()
+    /**
+     * @var ApiProblemRenderer
+     */
+    private $renderer;
+
+    protected function setUp(): void
     {
         $this->renderer = new ApiProblemRenderer();
     }
 
-    public function testRendersApiProblemCorrectly()
+    public function testRendersApiProblemCorrectly(): void
     {
         $apiProblem = new ApiProblem(401, 'login error', 'http://status.dev/errors.md', 'Unauthorized');
         $model = new ApiProblemModel();
@@ -32,10 +37,10 @@ class ApiProblemRendererTest extends TestCase
             'title' => 'Unauthorized',
             'detail' => 'login error',
         ];
-        $this->assertEquals($expected, json_decode($test, true));
+        self::assertEquals($expected, \json_decode($test, true, 512, \JSON_THROW_ON_ERROR));
     }
 
-    public function testCanHintToApiProblemToRenderStackTrace()
+    public function testCanHintToApiProblemToRenderStackTrace(): void
     {
         $exception = new \Exception('exception message', 500);
         $apiProblem = new ApiProblem(500, $exception);
@@ -43,9 +48,9 @@ class ApiProblemRendererTest extends TestCase
         $model->setApiProblem($apiProblem);
         $this->renderer->setDisplayExceptions(true);
         $test = $this->renderer->render($model);
-        $test = json_decode($test, true);
-        $this->assertArrayHasKey('trace', $test);
-        $this->assertInternalType('array', $test['trace']);
-        $this->assertGreaterThanOrEqual(1, count($test['trace']));
+        $test = \json_decode($test, true, 512, \JSON_THROW_ON_ERROR);
+        self::assertArrayHasKey('trace', $test);
+        self::assertIsArray($test['trace']);
+        self::assertGreaterThanOrEqual(1, count($test['trace']));
     }
 }

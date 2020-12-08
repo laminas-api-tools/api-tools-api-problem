@@ -17,6 +17,7 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\Header\Accept as AcceptHeader;
 use Laminas\Http\Request as HttpRequest;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Stdlib\DispatchableInterface;
 use Laminas\View\Model\ModelInterface;
 use Throwable;
 
@@ -50,11 +51,11 @@ class ApiProblemListener extends AbstractListenerAggregate
     public function __construct($filters = null)
     {
         if (! empty($filters)) {
-            if (is_string($filters)) {
+            if (\is_string($filters)) {
                 $this->acceptFilters = [$filters];
             }
 
-            if (is_array($filters)) {
+            if (\is_array($filters)) {
                 $this->acceptFilters = $filters;
             }
         }
@@ -63,18 +64,21 @@ class ApiProblemListener extends AbstractListenerAggregate
     /**
      * {@inheritDoc}
      */
-    public function attach(EventManagerInterface $events, $priority = 1)
+    public function attach(EventManagerInterface $events, $priority = 1): void
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 1000);
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'onDispatchError'], 100);
 
         $sharedEvents = $events->getSharedManager();
-        $sharedEvents->attach(
-            'Laminas\Stdlib\DispatchableInterface',
-            MvcEvent::EVENT_DISPATCH,
-            [$this, 'onDispatch'],
-            100
-        );
+
+        if ($sharedEvents) {
+            $sharedEvents->attach(
+                DispatchableInterface::class,
+                MvcEvent::EVENT_DISPATCH,
+                [$this, 'onDispatch'],
+                100
+            );
+        }
     }
 
     /**
@@ -82,7 +86,7 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * @param MvcEvent $e
      */
-    public function onRender(MvcEvent $e)
+    public function onRender(MvcEvent $e): void
     {
         if (! $this->validateErrorEvent($e)) {
             return;
@@ -96,7 +100,7 @@ class ApiProblemListener extends AbstractListenerAggregate
         }
 
         // Marshal the information we need for the API-Problem response
-        $status = $e->getResponse()->getStatusCode();
+        $status    = $e->getResponse()->getStatusCode();
         $exception = $model->getVariable('exception');
 
         if ($exception instanceof Throwable || $exception instanceof Exception) {
@@ -119,19 +123,19 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * @param MvcEvent $e
      */
-    public function onDispatch(MvcEvent $e)
+    public function onDispatch(MvcEvent $e): void
     {
-        $app = $e->getApplication();
+        $app      = $e->getApplication();
         $services = $app->getServiceManager();
-        $config = $services->get('config');
+        $config   = $services->get('config');
 
         if (! isset($config['api-tools-api-problem']['render_error_controllers'])) {
             return;
         }
 
-        $controller = $e->getRouteMatch()->getParam('controller');
+        $controller  = $e->getRouteMatch()->getParam('controller');
         $controllers = $config['api-tools-api-problem']['render_error_controllers'];
-        if (! in_array($controller, $controllers)) {
+        if (! \in_array($controller, $controllers, true)) {
             // The current controller is not in our list of controllers to handle
             return;
         }
@@ -151,17 +155,17 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * @return ApiProblemResponse
      */
-    public function onDispatchError(MvcEvent $e)
+    public function onDispatchError(MvcEvent $e): ?ApiProblemResponse
     {
         if (! $this->validateErrorEvent($e)) {
-            return;
+            return null;
         }
 
         // Marshall an ApiProblem and view model based on the exception
         $exception = $e->getParam('exception');
         if (! ($exception instanceof Throwable || $exception instanceof Exception)) {
             // If it's not an exception, do not know what to do.
-            return;
+            return null;
         }
 
         $e->stopPropagation();
@@ -178,7 +182,7 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * @return bool
      */
-    protected function validateErrorEvent(MvcEvent $e)
+    protected function validateErrorEvent(MvcEvent $e): bool
     {
         // only worried about error pages
         if (! $e->isError()) {
@@ -216,11 +220,11 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * @return bool
      */
-    protected function matchAcceptCriteria(AcceptHeader $accept)
+    protected function matchAcceptCriteria(AcceptHeader $accept): bool
     {
         foreach ($this->acceptFilters as $type) {
             $match = $accept->match($type);
-            if ($match && $match->getTypeString() != '*/*') {
+            if ($match && $match->getTypeString() !== '*/*') {
                 return true;
             }
         }

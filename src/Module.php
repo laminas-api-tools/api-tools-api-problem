@@ -9,17 +9,16 @@
 namespace Laminas\ApiTools\ApiProblem;
 
 use Laminas\ApiTools\ApiProblem\Listener\SendApiProblemResponseListener;
+use Laminas\EventManager\EventInterface;
+use Laminas\ModuleManager\Feature\BootstrapListenerInterface;
+use Laminas\ModuleManager\Feature\ConfigProviderInterface;
+use Laminas\Mvc\ApplicationInterface;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Mvc\ResponseSender\SendResponseEvent;
 
-class Module
+class Module implements BootstrapListenerInterface, ConfigProviderInterface
 {
-    /**
-     * Retrieve module configuration
-     *
-     * @return array
-     */
-    public function getConfig()
+    public function getConfig(): array
     {
         return include __DIR__ . '/../config/module.config.php';
     }
@@ -29,11 +28,12 @@ class Module
      *
      * Attaches a render event.
      *
-     * @param  MvcEvent $e
+     * @param  EventInterface $e
      */
-    public function onBootstrap(MvcEvent $e)
+    public function onBootstrap(EventInterface $e): void
     {
-        $app = $e->getTarget();
+        /** @var ApplicationInterface $app */
+        $app            = $e->getTarget();
         $serviceManager = $app->getServiceManager();
         $eventManager   = $app->getEventManager();
 
@@ -55,13 +55,14 @@ class Module
      *
      * @param  MvcEvent $e
      */
-    public function onRender(MvcEvent $e)
+    public function onRender(MvcEvent $e): void
     {
-        $app = $e->getTarget();
+        /** @var ApplicationInterface $app */
+        $app      = $e->getTarget();
         $services = $app->getServiceManager();
 
         if ($services->has('View')) {
-            $view = $services->get('View');
+            $view   = $services->get('View');
             $events = $view->getEventManager();
 
             // register at high priority, to "beat" normal json strategy registered

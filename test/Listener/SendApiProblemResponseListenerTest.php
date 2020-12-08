@@ -15,76 +15,96 @@ use Laminas\ApiTools\ApiProblem\Listener\SendApiProblemResponseListener;
 use Laminas\Http\Response as HttpResponse;
 use Laminas\Mvc\ResponseSender\SendResponseEvent;
 use PHPUnit\Framework\TestCase;
+use Laminas\Mvc\ResponseSender\ResponseSenderInterface;
 
 class SendApiProblemResponseListenerTest extends TestCase
 {
-    protected function setUp()
+    /**
+     * @var DomainException
+     */
+    private $exception;
+
+    /**
+     * @var ApiProblemResponse
+     */
+    private $response;
+
+    /**
+     * @var SendResponseEvent
+     */
+    private $event;
+
+    /**
+     * @var SendApiProblemResponseListener
+     */
+    private $listener;
+
+    protected function setUp(): void
     {
         $this->exception = new DomainException('Random error', 400);
-        $this->apiProblem = new ApiProblem(400, $this->exception);
-        $this->response = new ApiProblemResponse($this->apiProblem);
-        $this->event = new SendResponseEvent();
+        $this->response  = new ApiProblemResponse(new ApiProblem(400, $this->exception));
+        $this->event     = new SendResponseEvent();
         $this->event->setResponse($this->response);
         $this->listener = new SendApiProblemResponseListener();
     }
 
-    public function testListenerImplementsResponseSenderInterface()
+    public function testListenerImplementsResponseSenderInterface(): void
     {
-        $this->assertInstanceOf('Laminas\Mvc\ResponseSender\ResponseSenderInterface', $this->listener);
+        self::assertInstanceOf(ResponseSenderInterface::class, $this->listener);
     }
 
-    public function testDisplayExceptionsFlagIsFalseByDefault()
+    public function testDisplayExceptionsFlagIsFalseByDefault(): void
     {
-        $this->assertFalse($this->listener->displayExceptions());
-    }
-
-    /**
-     * @depends testDisplayExceptionsFlagIsFalseByDefault
-     */
-    public function testDisplayExceptionsFlagIsMutable()
-    {
-        $this->listener->setDisplayExceptions(true);
-        $this->assertTrue($this->listener->displayExceptions());
+        self::assertFalse($this->listener->displayExceptions());
     }
 
     /**
      * @depends testDisplayExceptionsFlagIsFalseByDefault
      */
-    public function testSendContentDoesNotRenderExceptionsByDefault()
-    {
-        ob_start();
-        $this->listener->sendContent($this->event);
-        $contents = ob_get_clean();
-        $this->assertInternalType('string', $contents);
-        $data = json_decode($contents, true);
-        $this->assertNotContains("\n", $data['detail']);
-        $this->assertNotContains($this->exception->getTraceAsString(), $data['detail']);
-    }
-
-    public function testEnablingDisplayExceptionFlagRendersExceptionStackTrace()
+    public function testDisplayExceptionsFlagIsMutable(): void
     {
         $this->listener->setDisplayExceptions(true);
-        ob_start();
-        $this->listener->sendContent($this->event);
-        $contents = ob_get_clean();
-        $this->assertInternalType('string', $contents);
-        $data = json_decode($contents, true);
-        $this->assertArrayHasKey('trace', $data);
-        $this->assertInternalType('array', $data['trace']);
-        $this->assertGreaterThanOrEqual(1, count($data['trace']));
+        self::assertTrue($this->listener->displayExceptions());
     }
 
-    public function testSendContentDoesNothingIfEventDoesNotContainApiProblemResponse()
+    /**
+     * @depends testDisplayExceptionsFlagIsFalseByDefault
+     */
+    public function testSendContentDoesNotRenderExceptionsByDefault(): void
+    {
+        \ob_start();
+        $this->listener->sendContent($this->event);
+        $contents = \ob_get_clean();
+        self::assertIsString($contents);
+        $data = \json_decode($contents, true, 512, \JSON_THROW_ON_ERROR);
+        self::assertStringNotContainsString("\n", $data['detail']);
+        self::assertStringNotContainsString($this->exception->getTraceAsString(), $data['detail']);
+    }
+
+    public function testEnablingDisplayExceptionFlagRendersExceptionStackTrace(): void
+    {
+        $this->listener->setDisplayExceptions(true);
+        \ob_start();
+        $this->listener->sendContent($this->event);
+        $contents = \ob_get_clean();
+        self::assertIsString($contents);
+        $data = \json_decode($contents, true, 512, \JSON_THROW_ON_ERROR);
+        self::assertArrayHasKey('trace', $data);
+        self::assertIsArray($data['trace']);
+        self::assertGreaterThanOrEqual(1, count($data['trace']));
+    }
+
+    public function testSendContentDoesNothingIfEventDoesNotContainApiProblemResponse(): void
     {
         $this->event->setResponse(new HttpResponse());
-        ob_start();
+        \ob_start();
         $this->listener->sendContent($this->event);
-        $contents = ob_get_clean();
-        $this->assertInternalType('string', $contents);
-        $this->assertEmpty($contents);
+        $contents = \ob_get_clean();
+        self::assertIsString($contents);
+        self::assertEmpty($contents);
     }
 
-    public function testSendHeadersMergesApplicationAndProblemHttpHeaders()
+    public function testSendHeadersMergesApplicationAndProblemHttpHeaders(): void
     {
         $appResponse = new HttpResponse();
         $appResponse->getHeaders()->addHeaderLine('Access-Control-Allow-Origin', '*');
@@ -92,11 +112,11 @@ class SendApiProblemResponseListenerTest extends TestCase
         $listener = new SendApiProblemResponseListener();
         $listener->setApplicationResponse($appResponse);
 
-        ob_start();
+        \ob_start();
         $listener->sendHeaders($this->event);
-        ob_get_clean();
+        \ob_get_clean();
 
         $headers = $this->response->getHeaders();
-        $this->assertTrue($headers->has('Access-Control-Allow-Origin'));
+        self::assertTrue($headers->has('Access-Control-Allow-Origin'));
     }
 }

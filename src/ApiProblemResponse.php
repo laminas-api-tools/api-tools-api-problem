@@ -8,12 +8,13 @@
 
 namespace Laminas\ApiTools\ApiProblem;
 
-use Laminas\Http\Response;
+use Laminas\Http\Headers as HttpHeaders;
+use Laminas\Http\Response as HttpResponse;
 
 /**
  * Represents an ApiProblem response payload.
  */
-class ApiProblemResponse extends Response
+class ApiProblemResponse extends HttpResponse
 {
     /**
      * @var ApiProblem
@@ -27,22 +28,16 @@ class ApiProblemResponse extends Response
      */
     protected $jsonFlags;
 
-    /**
-     * @param ApiProblem $apiProblem
-     */
     public function __construct(ApiProblem $apiProblem)
     {
         $this->apiProblem = $apiProblem;
         $this->setCustomStatusCode($apiProblem->status);
         $this->setReasonPhrase($apiProblem->title);
 
-        $this->jsonFlags = JSON_UNESCAPED_SLASHES | JSON_PARTIAL_OUTPUT_ON_ERROR;
+        $this->jsonFlags = \JSON_UNESCAPED_SLASHES | \JSON_PARTIAL_OUTPUT_ON_ERROR | \JSON_THROW_ON_ERROR;
     }
 
-    /**
-     * @return ApiProblem
-     */
-    public function getApiProblem()
+    public function getApiProblem(): ApiProblem
     {
         return $this->apiProblem;
     }
@@ -54,20 +49,19 @@ class ApiProblemResponse extends Response
      *
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
-        return json_encode($this->apiProblem->toArray(), $this->jsonFlags);
+        return \json_encode($this->apiProblem->toArray(), $this->jsonFlags);
     }
 
     /**
      * Retrieve headers.
-     *
      * Proxies to parent class, but then checks if we have an content-type
      * header; if not, sets it, with a value of "application/problem+json".
      *
-     * @return \Laminas\Http\Headers
+     * @return HttpHeaders
      */
-    public function getHeaders()
+    public function getHeaders(): HttpHeaders
     {
         $headers = parent::getHeaders();
         if (! $headers->has('content-type')) {
@@ -85,16 +79,12 @@ class ApiProblemResponse extends Response
      *
      * @return string
      */
-    public function getReasonPhrase()
+    public function getReasonPhrase(): string
     {
         if (! empty($this->reasonPhrase)) {
             return $this->reasonPhrase;
         }
 
-        if (isset($this->recommendedReasonPhrases[$this->statusCode])) {
-            return $this->recommendedReasonPhrases[$this->statusCode];
-        }
-
-        return 'Unknown Error';
+        return $this->recommendedReasonPhrases[$this->statusCode] ?? 'Unknown Error';
     }
 }

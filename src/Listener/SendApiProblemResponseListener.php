@@ -59,7 +59,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
      *
      * @return bool
      */
-    public function displayExceptions()
+    public function displayExceptions(): bool
     {
         return $this->displayExceptions;
     }
@@ -70,19 +70,19 @@ class SendApiProblemResponseListener extends HttpResponseSender
      * Sets the composed ApiProblem's flag for including the stack trace in the
      * detail based on the display exceptions flag, and then sends content.
      *
-     * @param SendResponseEvent $e
+     * @param SendResponseEvent $event
      *
      * @return self
      */
-    public function sendContent(SendResponseEvent $e)
+    public function sendContent(SendResponseEvent $event): SendApiProblemResponseListener
     {
-        $response = $e->getResponse();
+        $response = $event->getResponse();
         if (! $response instanceof ApiProblemResponse) {
             return $this;
         }
         $response->getApiProblem()->setDetailIncludesStackTrace($this->displayExceptions());
 
-        return parent::sendContent($e);
+        return parent::sendContent($event);
     }
 
     /**
@@ -91,13 +91,13 @@ class SendApiProblemResponseListener extends HttpResponseSender
      * If an application response is composed, and is an HTTP response, merges
      * its headers with the ApiProblemResponse headers prior to sending them.
      *
-     * @param SendResponseEvent $e
+     * @param SendResponseEvent $event
      *
      * @return self
      */
-    public function sendHeaders(SendResponseEvent $e)
+    public function sendHeaders(SendResponseEvent $event): SendApiProblemResponseListener
     {
-        $response = $e->getResponse();
+        $response = $event->getResponse();
         if (! $response instanceof ApiProblemResponse) {
             return $this;
         }
@@ -106,7 +106,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
             $this->mergeHeaders($this->applicationResponse, $response);
         }
 
-        return parent::sendHeaders($e);
+        return parent::sendHeaders($event);
     }
 
     /**
@@ -116,7 +116,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
      *
      * @return self
      */
-    public function __invoke(SendResponseEvent $event)
+    public function __invoke(SendResponseEvent $event): SendApiProblemResponseListener
     {
         $response = $event->getResponse();
         if (! $response instanceof ApiProblemResponse) {
@@ -136,7 +136,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
      * @param HttpResponse       $applicationResponse
      * @param ApiProblemResponse $apiProblemResponse
      */
-    protected function mergeHeaders(HttpResponse $applicationResponse, ApiProblemResponse $apiProblemResponse)
+    protected function mergeHeaders(HttpResponse $applicationResponse, ApiProblemResponse $apiProblemResponse): void
     {
         $apiProblemHeaders = $apiProblemResponse->getHeaders();
         foreach ($applicationResponse->getHeaders() as $header) {

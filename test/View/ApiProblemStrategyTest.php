@@ -20,7 +20,27 @@ use PHPUnit\Framework\TestCase;
 
 class ApiProblemStrategyTest extends TestCase
 {
-    protected function setUp()
+    /**
+     * @var Response
+     */
+    private $response;
+
+    /**
+     * @var ViewEvent
+     */
+    private $event;
+
+    /**
+     * @var ApiProblemRenderer
+     */
+    private $renderer;
+
+    /**
+     * @var ApiProblemStrategy
+     */
+    private $strategy;
+
+    protected function setUp(): void
     {
         $this->response = new Response();
         $this->event = new ViewEvent();
@@ -30,43 +50,43 @@ class ApiProblemStrategyTest extends TestCase
         $this->strategy = new ApiProblemStrategy($this->renderer);
     }
 
-    public function invalidViewModels()
+    public function invalidViewModels(): array
     {
         return [
-            'null' => [null],
+            'null'    => [null],
             'generic' => [new ViewModel()],
-            'json' => [new JsonModel()],
+            'json'    => [new JsonModel()],
         ];
     }
 
     /**
      * @dataProvider invalidViewModels
      */
-    public function testSelectRendererReturnsNullIfModelIsNotAnApiProblemModel($model)
+    public function testSelectRendererReturnsNullIfModelIsNotAnApiProblemModel($model): void
     {
         if (null !== $model) {
             $this->event->setModel($model);
         }
-        $this->assertNull($this->strategy->selectRenderer($this->event));
+        self::assertNull($this->strategy->selectRenderer($this->event));
     }
 
-    public function testSelectRendererReturnsRendererIfModelIsAnApiProblemModel()
+    public function testSelectRendererReturnsRendererIfModelIsAnApiProblemModel(): void
     {
         $model = new ApiProblemModel();
         $this->event->setModel($model);
-        $this->assertSame($this->renderer, $this->strategy->selectRenderer($this->event));
+        self::assertSame($this->renderer, $this->strategy->selectRenderer($this->event));
     }
 
-    public function testInjectResponseDoesNotSetContentTypeHeaderIfResultIsNotString()
+    public function testInjectResponseDoesNotSetContentTypeHeaderIfResultIsNotString(): void
     {
         $this->event->setRenderer($this->renderer);
         $this->event->setResult(['foo']);
         $this->strategy->injectResponse($this->event);
         $headers = $this->response->getHeaders();
-        $this->assertFalse($headers->has('Content-Type'));
+        self::assertFalse($headers->has('Content-Type'));
     }
 
-    public function testInjectResponseSetsContentTypeHeaderToApiProblemForApiProblemModel()
+    public function testInjectResponseSetsContentTypeHeaderToApiProblemForApiProblemModel(): void
     {
         $problem = new ApiProblem(500, 'whatever', 'foo', 'bar');
         $model = new ApiProblemModel($problem);
@@ -75,12 +95,12 @@ class ApiProblemStrategyTest extends TestCase
         $this->event->setResult('{"foo":"bar"}');
         $this->strategy->injectResponse($this->event);
         $headers = $this->response->getHeaders();
-        $this->assertTrue($headers->has('Content-Type'));
+        self::assertTrue($headers->has('Content-Type'));
         $header = $headers->get('Content-Type');
-        $this->assertEquals(ApiProblem::CONTENT_TYPE, $header->getFieldValue());
+        self::assertEquals(ApiProblem::CONTENT_TYPE, $header->getFieldValue());
     }
 
-    public function invalidStatusCodes()
+    public function invalidStatusCodes(): array
     {
         return [
             [0],
@@ -94,7 +114,7 @@ class ApiProblemStrategyTest extends TestCase
     /**
      * @dataProvider invalidStatusCodes
      */
-    public function testUsesStatusCode500ForAnyStatusCodesAbove599OrBelow100($status)
+    public function testUsesStatusCode500ForAnyStatusCodesAbove599OrBelow100($status): void
     {
         $problem = new ApiProblem($status, 'whatever');
         $model = new ApiProblemModel($problem);
@@ -103,6 +123,6 @@ class ApiProblemStrategyTest extends TestCase
         $this->event->setResult('{"foo":"bar"}');
         $this->strategy->injectResponse($this->event);
 
-        $this->assertEquals(500, $this->response->getStatusCode());
+        self::assertEquals(500, $this->response->getStatusCode());
     }
 }

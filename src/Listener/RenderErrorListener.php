@@ -8,7 +8,6 @@
 
 namespace Laminas\ApiTools\ApiProblem\Listener;
 
-use Exception;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
@@ -31,7 +30,7 @@ class RenderErrorListener extends AbstractListenerAggregate
     /**
      * {@inheritDoc}
      */
-    public function attach(EventManagerInterface $events, $priority = 1)
+    public function attach(EventManagerInterface $events, $priority = 1): void
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'onRenderError'], 100);
     }
@@ -58,39 +57,37 @@ class RenderErrorListener extends AbstractListenerAggregate
      *
      * @param MvcEvent $e
      */
-    public function onRenderError(MvcEvent $e)
+    public function onRenderError(MvcEvent $e): void
     {
-        $response = $e->getResponse();
-        $status = 406;
-        $title = 'Not Acceptable';
+        $response    = $e->getResponse();
+        $status      = 406;
+        $title       = 'Not Acceptable';
         $describedBy = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
-        $detail = 'Your request could not be resolved to an acceptable representation.';
-        $details = false;
+        $detail      = 'Your request could not be resolved to an acceptable representation.';
+        $details     = false;
 
         $exception = $e->getParam('exception');
-        if (($exception instanceof Throwable || $exception instanceof Exception)
-            && ! $exception instanceof ViewExceptionInterface
-        ) {
+        if ($exception instanceof Throwable && ! $exception instanceof ViewExceptionInterface) {
             $code = $exception->getCode();
             if ($code >= 100 && $code <= 600) {
                 $status = $code;
             } else {
                 $status = 500;
             }
-            $title = 'Unexpected error';
-            $detail = $exception->getMessage();
+            $title   = 'Unexpected error';
+            $detail  = $exception->getMessage();
             $details = [
-                'code' => $exception->getCode(),
+                'code'    => $exception->getCode(),
                 'message' => $exception->getMessage(),
-                'trace' => $exception->getTraceAsString(),
+                'trace'   => $exception->getTraceAsString(),
             ];
         }
 
         $payload = [
-            'status' => $status,
-            'title' => $title,
+            'status'      => $status,
+            'title'       => $title,
             'describedBy' => $describedBy,
-            'detail' => $detail,
+            'detail'      => $detail,
         ];
         if ($details && $this->displayExceptions) {
             $payload['details'] = $details;
@@ -98,7 +95,7 @@ class RenderErrorListener extends AbstractListenerAggregate
 
         $response->getHeaders()->addHeaderLine('content-type', ApiProblem::CONTENT_TYPE);
         $response->setStatusCode($status);
-        $response->setContent(json_encode($payload));
+        $response->setContent(\json_encode($payload, \JSON_THROW_ON_ERROR));
 
         $e->stopPropagation();
     }

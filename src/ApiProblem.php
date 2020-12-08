@@ -21,7 +21,7 @@ class ApiProblem
     /**
      * Content type for api problem response
      */
-    const CONTENT_TYPE = 'application/problem+json';
+    public const CONTENT_TYPE = 'application/problem+json';
 
     /**
      * Additional details to include in report.
@@ -55,7 +55,7 @@ class ApiProblem
     /**
      * HTTP status for the error.
      *
-     * @var int
+     * @var int|null
      */
     protected $status;
 
@@ -65,9 +65,9 @@ class ApiProblem
      * @var array
      */
     protected $normalizedProperties = [
-        'type' => 'type',
+        'type'   => 'type',
         'status' => 'status',
-        'title' => 'title',
+        'title'  => 'title',
         'detail' => 'detail',
     ];
 
@@ -126,18 +126,16 @@ class ApiProblem
     protected $title;
 
     /**
-     * Constructor.
-     *
      * Create an instance using the provided information. If nothing is
      * provided for the type field, the class default will be used;
      * if the status matches any known, the title field will be selected
      * from $problemStatusTitles as a result.
      *
-     * @param int    $status
+     * @param int                        $status
      * @param string|Exception|Throwable $detail
-     * @param string $type
-     * @param string $title
-     * @param array  $additional
+     * @param string                     $type
+     * @param string                     $title
+     * @param array|\Traversable|null    $additional
      */
     public function __construct($status, $detail, $type = null, $title = null, array $additional = [])
     {
@@ -154,7 +152,7 @@ class ApiProblem
         }
 
         // Ensure a valid HTTP status
-        if (! is_numeric($status)
+        if (!\is_numeric($status)
             || ($status < 100)
             || ($status > 599)
         ) {
@@ -163,7 +161,7 @@ class ApiProblem
 
         $this->status = $status;
         $this->detail = $detail;
-        $this->title = $title;
+        $this->title  = $title;
 
         if (null !== $type) {
             $this->type = $type;
@@ -173,16 +171,14 @@ class ApiProblem
     }
 
     /**
-     * Retrieve properties.
-     *
      * @param string $name
      * @return mixed
      * @throws InvalidArgumentException
      */
-    public function __get($name)
+    public function __get(string $name)
     {
-        $normalized = strtolower($name);
-        if (in_array($normalized, array_keys($this->normalizedProperties))) {
+        $normalized = \strtolower($name);
+        if (\array_key_exists($normalized, $this->normalizedProperties)) {
             $prop = $this->normalizedProperties[$normalized];
 
             return $this->{$prop};
@@ -196,27 +192,33 @@ class ApiProblem
             return $this->additionalDetails[$normalized];
         }
 
-        throw new InvalidArgumentException(sprintf(
-            'Invalid property name "%s"',
-            $name
-        ));
+        throw new InvalidArgumentException(
+            \sprintf(
+                'Invalid property name "%s"',
+                $name
+            )
+        );
     }
 
-    /**
-     * Cast to an array.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function __set(string $name, $value)
+    {
+    }
+
+    public function __isset(string $name)
+    {
+    }
+
+    public function toArray(): array
     {
         $problem = [
-            'type' => $this->type,
-            'title' => $this->getTitle(),
+            'type'   => $this->type,
+            'title'  => $this->getTitle(),
             'status' => $this->getStatus(),
             'detail' => $this->getDetail(),
         ];
+
         // Required fields should always overwrite additional fields
-        return array_merge($this->additionalDetails, $problem);
+        return \array_merge($this->additionalDetails, $problem);
     }
 
     /**
@@ -241,9 +243,9 @@ class ApiProblem
      *
      * @return string
      */
-    protected function getDetail()
+    protected function getDetail(): string
     {
-        if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
+        if ($this->detail instanceof Throwable) {
             return $this->createDetailFromException();
         }
 
@@ -256,11 +258,11 @@ class ApiProblem
      * If an exception was provided, creates the status code from it;
      * otherwise, code as provided is used.
      *
-     * @return string
+     * @return int|null
      */
-    protected function getStatus()
+    protected function getStatus(): ?int
     {
-        if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
+        if ($this->detail instanceof Throwable) {
             $this->status = $this->createStatusFromException();
         }
 
@@ -280,36 +282,27 @@ class ApiProblem
      *
      * @return string
      */
-    protected function getTitle()
+    protected function getTitle(): ?string
     {
         if (null !== $this->title) {
             return $this->title;
         }
 
         if (null === $this->title
-            && $this->type == 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
-            && array_key_exists($this->getStatus(), $this->problemStatusTitles)
+            && $this->type === 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
+            && \array_key_exists($this->getStatus(), $this->problemStatusTitles)
         ) {
             return $this->problemStatusTitles[$this->status];
         }
 
-        if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
-            return get_class($this->detail);
+        if ($this->detail instanceof Throwable) {
+            return \get_class($this->detail);
         }
 
-        if (null === $this->title) {
-            return 'Unknown';
-        }
-
-        return $this->title;
+        return $this->title ?? 'Unknown';
     }
 
-    /**
-     * Create detail message from an exception.
-     *
-     * @return string
-     */
-    protected function createDetailFromException()
+    protected function createDetailFromException(): string
     {
         /** @var Exception|Throwable $e */
         $e = $this->detail;
@@ -318,41 +311,30 @@ class ApiProblem
             return $e->getMessage();
         }
 
-        $message = trim($e->getMessage());
+        $message = \trim($e->getMessage());
         $this->additionalDetails['trace'] = $e->getTrace();
 
         $previous = [];
         $e = $e->getPrevious();
         while ($e) {
             $previous[] = [
-                'code' => (int) $e->getCode(),
-                'message' => trim($e->getMessage()),
-                'trace' => $e->getTrace(),
+                'code'    => (int)$e->getCode(),
+                'message' => \trim($e->getMessage()),
+                'trace'   => $e->getTrace(),
             ];
             $e = $e->getPrevious();
         }
-        if (count($previous)) {
+        if (\count($previous)) {
             $this->additionalDetails['exception_stack'] = $previous;
         }
 
         return $message;
     }
 
-    /**
-     * Create HTTP status from an exception.
-     *
-     * @return int
-     */
-    protected function createStatusFromException()
+    protected function createStatusFromException(): int
     {
-        /** @var Exception|Throwable $e */
-        $e = $this->detail;
-        $status = $e->getCode();
+        $status = $this->detail->getCode();
 
-        if ($status) {
-            return $status;
-        }
-
-        return 500;
+        return $status ?: 500;
     }
 }

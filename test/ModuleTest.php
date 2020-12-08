@@ -18,10 +18,11 @@ use Laminas\Mvc\SendResponseListener;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use RuntimeException;
 
 class ModuleTest extends TestCase
 {
-    public function marshalEventManager()
+    public function marshalEventManager(): EventManager
     {
         $r = new ReflectionClass(EventManager::class);
         if ($r->hasMethod('setSharedManager')) {
@@ -32,7 +33,7 @@ class ModuleTest extends TestCase
         return new EventManager(new SharedEventManager());
     }
 
-    public function testOnBootstrap()
+    public function testOnBootstrap(): void
     {
         $module = new Module();
 
@@ -40,14 +41,14 @@ class ModuleTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $serviceLocator = $this->getMockForAbstractClass(ServiceLocatorInterface::class);
-        $serviceLocator->method('get')->will($this->returnCallback([$this, 'serviceLocator']));
+        $serviceLocator->method('get')->willReturnCallback([$this, 'serviceLocator']);
 
         $eventManager = $this->marshalEventManager();
         $event = $this->getMockBuilder(MvcEvent::class)->getMock();
 
         $application->method('getServiceManager')->willReturn($serviceLocator);
         $application->method('getEventManager')->willReturn($eventManager);
-        $event->expects($this->once())->method('getTarget')->willReturn($application);
+        $event->expects(self::once())->method('getTarget')->willReturn($application);
 
         $module->onBootstrap($event);
     }
@@ -55,19 +56,17 @@ class ModuleTest extends TestCase
     public function serviceLocator($service)
     {
         switch ($service) {
-            case 'Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener':
+            case ApiProblemListener::class:
                 return new ApiProblemListener();
-                break;
             case 'SendResponseListener':
                 $listener = $this->getMockBuilder(SendResponseListener::class)->getMock();
                 $listener->method('getEventManager')->willReturn(new EventManager());
 
                 return $listener;
-                break;
             case SendApiProblemResponseListener::class:
                 return new SendApiProblemResponseListener();
             default:
-                //
+                throw new RuntimeException('Could not find requested service');
         }
     }
 }

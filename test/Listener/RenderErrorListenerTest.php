@@ -25,12 +25,12 @@ class RenderErrorListenerTest extends TestCase
      */
     protected $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->listener = new RenderErrorListener();
     }
 
-    public function testOnRenderErrorCreatesAnApiProblemResponse()
+    public function testOnRenderErrorCreatesAnApiProblemResponse(): void
     {
         $response = new Response();
         $request = new Request();
@@ -42,26 +42,26 @@ class RenderErrorListenerTest extends TestCase
         $event->setResponse($response);
         $this->listener->onRenderError($event);
 
-        $this->assertTrue($event->propagationIsStopped());
-        $this->assertSame($response, $event->getResponse());
+        self::assertTrue($event->propagationIsStopped());
+        self::assertSame($response, $event->getResponse());
 
-        $this->assertEquals(406, $response->getStatusCode());
+        self::assertEquals(406, $response->getStatusCode());
         $headers = $response->getHeaders();
-        $this->assertTrue($headers->has('Content-Type'));
-        $this->assertEquals(ApiProblem::CONTENT_TYPE, $headers->get('content-type')->getFieldValue());
-        $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('status', $content);
-        $this->assertArrayHasKey('title', $content);
-        $this->assertArrayHasKey('describedBy', $content);
-        $this->assertArrayHasKey('detail', $content);
+        self::assertTrue($headers->has('Content-Type'));
+        self::assertEquals(ApiProblem::CONTENT_TYPE, $headers->get('content-type')->getFieldValue());
+        $content = \json_decode($response->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+        self::assertArrayHasKey('status', $content);
+        self::assertArrayHasKey('title', $content);
+        self::assertArrayHasKey('describedBy', $content);
+        self::assertArrayHasKey('detail', $content);
 
-        $this->assertEquals(406, $content['status']);
-        $this->assertEquals('Not Acceptable', $content['title']);
-        $this->assertContains('www.w3.org', $content['describedBy']);
-        $this->assertContains('accept', $content['detail']);
+        self::assertEquals(406, $content['status']);
+        self::assertEquals('Not Acceptable', $content['title']);
+        self::assertStringContainsString('www.w3.org', $content['describedBy']);
+        self::assertStringContainsString('accept', $content['detail']);
     }
 
-    public function testOnRenderErrorCreatesAnApiProblemResponseFromException()
+    public function testOnRenderErrorCreatesAnApiProblemResponseFromException(): void
     {
         $response = new Response();
         $request = new Request();
@@ -76,38 +76,38 @@ class RenderErrorListenerTest extends TestCase
         $this->listener->setDisplayExceptions(true);
         $this->listener->onRenderError($event);
 
-        $this->assertTrue($event->propagationIsStopped());
-        $this->assertSame($response, $event->getResponse());
+        self::assertTrue($event->propagationIsStopped());
+        self::assertSame($response, $event->getResponse());
 
-        $this->assertEquals(400, $response->getStatusCode());
+        self::assertEquals(400, $response->getStatusCode());
         $headers = $response->getHeaders();
-        $this->assertTrue($headers->has('Content-Type'));
-        $this->assertEquals(ApiProblem::CONTENT_TYPE, $headers->get('content-type')->getFieldValue());
-        $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('status', $content);
-        $this->assertArrayHasKey('title', $content);
-        $this->assertArrayHasKey('describedBy', $content);
-        $this->assertArrayHasKey('detail', $content);
-        $this->assertArrayHasKey('details', $content);
+        self::assertTrue($headers->has('Content-Type'));
+        self::assertEquals(ApiProblem::CONTENT_TYPE, $headers->get('content-type')->getFieldValue());
+        $content = \json_decode($response->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+        self::assertArrayHasKey('status', $content);
+        self::assertArrayHasKey('title', $content);
+        self::assertArrayHasKey('describedBy', $content);
+        self::assertArrayHasKey('detail', $content);
+        self::assertArrayHasKey('details', $content);
 
-        $this->assertEquals(400, $content['status']);
-        $this->assertEquals('Unexpected error', $content['title']);
-        $this->assertContains('www.w3.org', $content['describedBy']);
-        $this->assertEquals('exception', $content['detail']);
+        self::assertEquals(400, $content['status']);
+        self::assertEquals('Unexpected error', $content['title']);
+        self::assertStringContainsString('www.w3.org', $content['describedBy']);
+        self::assertEquals('exception', $content['detail']);
 
-        $this->assertInternalType('array', $content['details']);
+        self::assertIsArray($content['details']);
         $details = $content['details'];
-        $this->assertArrayHasKey('code', $details);
-        $this->assertArrayHasKey('message', $details);
-        $this->assertArrayHasKey('trace', $details);
-        $this->assertEquals(400, $details['code']);
-        $this->assertEquals('exception', $details['message']);
+        self::assertArrayHasKey('code', $details);
+        self::assertArrayHasKey('message', $details);
+        self::assertArrayHasKey('trace', $details);
+        self::assertEquals(400, $details['code']);
+        self::assertEquals('exception', $details['message']);
     }
 
     /**
      * @requires PHP 7.0
      */
-    public function testOnRenderErrorCreatesAnApiProblemResponseFromThrowable()
+    public function testOnRenderErrorCreatesAnApiProblemResponseFromThrowable(): void
     {
         $response = new Response();
         $request = new Request();
@@ -122,31 +122,31 @@ class RenderErrorListenerTest extends TestCase
         $this->listener->setDisplayExceptions(true);
         $this->listener->onRenderError($event);
 
-        $this->assertTrue($event->propagationIsStopped());
-        $this->assertSame($response, $event->getResponse());
+        self::assertTrue($event->propagationIsStopped());
+        self::assertSame($response, $event->getResponse());
 
-        $this->assertEquals(400, $response->getStatusCode());
+        self::assertEquals(400, $response->getStatusCode());
         $headers = $response->getHeaders();
-        $this->assertTrue($headers->has('Content-Type'));
-        $this->assertEquals(ApiProblem::CONTENT_TYPE, $headers->get('content-type')->getFieldValue());
-        $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('status', $content);
-        $this->assertArrayHasKey('title', $content);
-        $this->assertArrayHasKey('describedBy', $content);
-        $this->assertArrayHasKey('detail', $content);
-        $this->assertArrayHasKey('details', $content);
+        self::assertTrue($headers->has('Content-Type'));
+        self::assertEquals(ApiProblem::CONTENT_TYPE, $headers->get('content-type')->getFieldValue());
+        $content = \json_decode($response->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+        self::assertArrayHasKey('status', $content);
+        self::assertArrayHasKey('title', $content);
+        self::assertArrayHasKey('describedBy', $content);
+        self::assertArrayHasKey('detail', $content);
+        self::assertArrayHasKey('details', $content);
 
-        $this->assertEquals(400, $content['status']);
-        $this->assertEquals('Unexpected error', $content['title']);
-        $this->assertContains('www.w3.org', $content['describedBy']);
-        $this->assertEquals('throwable', $content['detail']);
+        self::assertEquals(400, $content['status']);
+        self::assertEquals('Unexpected error', $content['title']);
+        self::assertStringContainsString('www.w3.org', $content['describedBy']);
+        self::assertEquals('throwable', $content['detail']);
 
-        $this->assertInternalType('array', $content['details']);
+        self::assertIsArray($content['details']);
         $details = $content['details'];
-        $this->assertArrayHasKey('code', $details);
-        $this->assertArrayHasKey('message', $details);
-        $this->assertArrayHasKey('trace', $details);
-        $this->assertEquals(400, $details['code']);
-        $this->assertEquals('throwable', $details['message']);
+        self::assertArrayHasKey('code', $details);
+        self::assertArrayHasKey('message', $details);
+        self::assertArrayHasKey('trace', $details);
+        self::assertEquals(400, $details['code']);
+        self::assertEquals('throwable', $details['message']);
     }
 }

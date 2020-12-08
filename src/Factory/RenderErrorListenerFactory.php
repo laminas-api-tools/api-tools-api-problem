@@ -10,21 +10,16 @@ namespace Laminas\ApiTools\ApiProblem\Factory;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ApiTools\ApiProblem\Listener\RenderErrorListener;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
-class RenderErrorListenerFactory
+class RenderErrorListenerFactory implements FactoryInterface
 {
-    /**
-     * @param ContainerInterface $container
-     * @return RenderErrorListener
-     */
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): RenderErrorListener
     {
-        $config = $container->get('config');
+        $config            = $container->get('config');
         $displayExceptions = false;
 
-        if (isset($config['view_manager'])
-            && isset($config['view_manager']['display_exceptions'])
-        ) {
+        if (isset($config['view_manager']['display_exceptions'])) {
             $displayExceptions = (bool) $config['view_manager']['display_exceptions'];
         }
 

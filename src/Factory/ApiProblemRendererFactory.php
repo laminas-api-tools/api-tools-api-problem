@@ -10,18 +10,14 @@ namespace Laminas\ApiTools\ApiProblem\Factory;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
-class ApiProblemRendererFactory
+class ApiProblemRendererFactory implements FactoryInterface
 {
-    /**
-     * @param ContainerInterface $container
-     * @return ApiProblemRenderer
-     */
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): ApiProblemRenderer
     {
         $config = $container->get('config');
-        $displayExceptions = isset($config['view_manager'])
-            && isset($config['view_manager']['display_exceptions'])
+        $displayExceptions = isset($config['view_manager']['display_exceptions'])
             && $config['view_manager']['display_exceptions'];
 
         $renderer = new ApiProblemRenderer();
