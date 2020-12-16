@@ -10,14 +10,17 @@ namespace Laminas\ApiTools\ApiProblem\Factory;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener;
-use Laminas\ServiceManager\Factory\FactoryInterface;
 
-class ApiProblemListenerFactory implements FactoryInterface
+class ApiProblemListenerFactory
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): ApiProblemListener
+    /**
+     * @param ContainerInterface $container
+     * @return ApiProblemListener
+     */
+    public function __invoke(ContainerInterface $container)
     {
         $filters = null;
-        $config  = [];
+        $config = [];
 
         if ($container->has('config')) {
             $config = $container->get('config');

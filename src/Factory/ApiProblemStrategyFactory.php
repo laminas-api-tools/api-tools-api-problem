@@ -11,11 +11,14 @@ namespace Laminas\ApiTools\ApiProblem\Factory;
 use Interop\Container\ContainerInterface;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy;
-use Laminas\ServiceManager\Factory\FactoryInterface;
 
-class ApiProblemStrategyFactory implements FactoryInterface
+class ApiProblemStrategyFactory
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): ApiProblemStrategy
+    /**
+     * @param ContainerInterface $container
+     * @return ApiProblemStrategy
+     */
+    public function __invoke(ContainerInterface $container)
     {
         return new ApiProblemStrategy($container->get(ApiProblemRenderer::class));
     }

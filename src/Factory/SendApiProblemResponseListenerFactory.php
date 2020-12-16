@@ -11,17 +11,18 @@ namespace Laminas\ApiTools\ApiProblem\Factory;
 use Interop\Container\ContainerInterface;
 use Laminas\ApiTools\ApiProblem\Listener\SendApiProblemResponseListener;
 use Laminas\Http\Response as HttpResponse;
-use Laminas\ServiceManager\Factory\FactoryInterface;
 
-class SendApiProblemResponseListenerFactory implements FactoryInterface
+class SendApiProblemResponseListenerFactory
 {
-    public function __invoke(
-        ContainerInterface $container,
-        $requestedName,
-        array $options = null
-    ): SendApiProblemResponseListener {
+    /**
+     * @param ContainerInterface $container
+     * @return SendApiProblemResponseListener
+     */
+    public function __invoke(ContainerInterface $container)
+    {
         $config = $container->get('config');
-        $displayExceptions = isset($config['view_manager']['display_exceptions'])
+        $displayExceptions = isset($config['view_manager'])
+            && isset($config['view_manager']['display_exceptions'])
             && $config['view_manager']['display_exceptions'];
 
         $listener = new SendApiProblemResponseListener();
