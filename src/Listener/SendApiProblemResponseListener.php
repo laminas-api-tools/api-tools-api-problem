@@ -59,7 +59,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
      *
      * @return bool
      */
-    public function displayExceptions(): bool
+    public function displayExceptions()
     {
         return $this->displayExceptions;
     }
@@ -74,7 +74,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
      *
      * @return self
      */
-    public function sendContent(SendResponseEvent $event): SendApiProblemResponseListener
+    public function sendContent(SendResponseEvent $event)
     {
         $response = $event->getResponse();
         if (! $response instanceof ApiProblemResponse) {
@@ -95,7 +95,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
      *
      * @return self
      */
-    public function sendHeaders(SendResponseEvent $event): SendApiProblemResponseListener
+    public function sendHeaders(SendResponseEvent $event)
     {
         $response = $event->getResponse();
         if (! $response instanceof ApiProblemResponse) {
@@ -116,7 +116,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
      *
      * @return self
      */
-    public function __invoke(SendResponseEvent $event): SendApiProblemResponseListener
+    public function __invoke(SendResponseEvent $event)
     {
         $response = $event->getResponse();
         if (! $response instanceof ApiProblemResponse) {
@@ -136,7 +136,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
      * @param HttpResponse       $applicationResponse
      * @param ApiProblemResponse $apiProblemResponse
      */
-    protected function mergeHeaders(HttpResponse $applicationResponse, ApiProblemResponse $apiProblemResponse): void
+    protected function mergeHeaders(HttpResponse $applicationResponse, ApiProblemResponse $apiProblemResponse)
     {
         $apiProblemHeaders = $apiProblemResponse->getHeaders();
         foreach ($applicationResponse->getHeaders() as $header) {

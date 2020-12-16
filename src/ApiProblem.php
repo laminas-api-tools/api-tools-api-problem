@@ -243,7 +243,7 @@ class ApiProblem
      *
      * @return string
      */
-    protected function getDetail(): string
+    protected function getDetail()
     {
         if ($this->detail instanceof Throwable) {
             return $this->createDetailFromException();
@@ -260,7 +260,7 @@ class ApiProblem
      *
      * @return int|null
      */
-    protected function getStatus(): ?int
+    protected function getStatus()
     {
         if ($this->detail instanceof Throwable) {
             $this->status = $this->createStatusFromException();
@@ -282,7 +282,7 @@ class ApiProblem
      *
      * @return string
      */
-    protected function getTitle(): ?string
+    protected function getTitle()
     {
         if (null !== $this->title) {
             return $this->title;
@@ -302,7 +302,10 @@ class ApiProblem
         return $this->title ?? 'Unknown';
     }
 
-    protected function createDetailFromException(): string
+    /**
+     * @return string
+     */
+    protected function createDetailFromException()
     {
         /** @var Exception|Throwable $e */
         $e = $this->detail;
@@ -331,6 +334,9 @@ class ApiProblem
         return $message;
     }
 
+    /**
+     * @return int
+     */
     protected function createStatusFromException(): int
     {
         $status = $this->detail->getCode();

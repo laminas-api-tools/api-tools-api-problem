@@ -49,7 +49,7 @@ class ApiProblemResponse extends HttpResponse
      *
      * @return string
      */
-    public function getContent(): string
+    public function getContent()
     {
         return \json_encode($this->apiProblem->toArray(), $this->jsonFlags);
     }
@@ -61,7 +61,7 @@ class ApiProblemResponse extends HttpResponse
      *
      * @return HttpHeaders
      */
-    public function getHeaders(): HttpHeaders
+    public function getHeaders()
     {
         $headers = parent::getHeaders();
         if (! $headers->has('content-type')) {
@@ -79,7 +79,7 @@ class ApiProblemResponse extends HttpResponse
      *
      * @return string
      */
-    public function getReasonPhrase(): string
+    public function getReasonPhrase()
     {
         if (! empty($this->reasonPhrase)) {
             return $this->reasonPhrase;
