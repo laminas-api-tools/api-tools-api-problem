@@ -337,7 +337,7 @@ class ApiProblem
     /**
      * @return int
      */
-    protected function createStatusFromException(): int
+    protected function createStatusFromException()
     {
         $status = $this->detail->getCode();
 
