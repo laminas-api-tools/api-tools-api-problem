@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 class ApiProblemStrategyTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->response = new Response();
         $this->event = new ViewEvent();

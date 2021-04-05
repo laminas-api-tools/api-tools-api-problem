@@ -25,7 +25,7 @@ class RenderErrorListenerTest extends TestCase
      */
     protected $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->listener = new RenderErrorListener();
     }
@@ -57,8 +57,8 @@ class RenderErrorListenerTest extends TestCase
 
         $this->assertEquals(406, $content['status']);
         $this->assertEquals('Not Acceptable', $content['title']);
-        $this->assertContains('www.w3.org', $content['describedBy']);
-        $this->assertContains('accept', $content['detail']);
+        $this->assertStringContainsString('www.w3.org', $content['describedBy']);
+        $this->assertStringContainsString('accept', $content['detail']);
     }
 
     public function testOnRenderErrorCreatesAnApiProblemResponseFromException()
@@ -92,10 +92,10 @@ class RenderErrorListenerTest extends TestCase
 
         $this->assertEquals(400, $content['status']);
         $this->assertEquals('Unexpected error', $content['title']);
-        $this->assertContains('www.w3.org', $content['describedBy']);
+        $this->assertStringContainsString('www.w3.org', $content['describedBy']);
         $this->assertEquals('exception', $content['detail']);
 
-        $this->assertInternalType('array', $content['details']);
+        $this->assertIsArray($content['details']);
         $details = $content['details'];
         $this->assertArrayHasKey('code', $details);
         $this->assertArrayHasKey('message', $details);
@@ -138,10 +138,10 @@ class RenderErrorListenerTest extends TestCase
 
         $this->assertEquals(400, $content['status']);
         $this->assertEquals('Unexpected error', $content['title']);
-        $this->assertContains('www.w3.org', $content['describedBy']);
+        $this->assertStringContainsString('www.w3.org', $content['describedBy']);
         $this->assertEquals('throwable', $content['detail']);
 
-        $this->assertInternalType('array', $content['details']);
+        $this->assertIsArray($content['details']);
         $details = $content['details'];
         $this->assertArrayHasKey('code', $details);
         $this->assertArrayHasKey('message', $details);

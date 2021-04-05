@@ -27,7 +27,7 @@ class ApiProblemResponseTest extends TestCase
     {
         $response = new ApiProblemResponse(new ApiProblem(400, 'Random error'));
         $this->assertEquals(400, $response->getStatusCode());
-        $this->assertInternalType('string', $response->getReasonPhrase());
+        $this->assertIsString($response->getReasonPhrase());
         $this->assertNotEmpty($response->getReasonPhrase());
         $this->assertEquals('bad request', strtolower($response->getReasonPhrase()));
     }
@@ -77,6 +77,6 @@ class ApiProblemResponseTest extends TestCase
     public function testOverridesReasonPhraseIfStatusCodeIsUnknown()
     {
         $response = new ApiProblemResponse(new ApiProblem(7, 'Random error'));
-        $this->assertContains('Internal Server Error', $response->getReasonPhrase());
+        $this->assertStringContainsString('Internal Server Error', $response->getReasonPhrase());
     }
 }
