@@ -13,7 +13,7 @@ use function json_decode;
 
 class ApiProblemRendererTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->renderer = new ApiProblemRenderer();
     }
@@ -43,7 +43,7 @@ class ApiProblemRendererTest extends TestCase
         $test = $this->renderer->render($model);
         $test = json_decode($test, true);
         $this->assertArrayHasKey('trace', $test);
-        $this->assertInternalType('array', $test['trace']);
+        $this->assertIsArray($test['trace']);
         $this->assertGreaterThanOrEqual(1, count($test['trace']));
     }
 }
