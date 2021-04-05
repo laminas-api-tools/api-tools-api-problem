@@ -18,11 +18,11 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use TypeError;
 
+use function json_decode;
+
 class RenderErrorListenerTest extends TestCase
 {
-    /**
-     * @var RenderErrorListener
-     */
+    /** @var RenderErrorListener */
     protected $listener;
 
     protected function setUp(): void
@@ -33,7 +33,7 @@ class RenderErrorListenerTest extends TestCase
     public function testOnRenderErrorCreatesAnApiProblemResponse()
     {
         $response = new Response();
-        $request = new Request();
+        $request  = new Request();
         $request->getHeaders()->addHeaderLine('Accept', 'application/json');
 
         $event = new MvcEvent();
@@ -64,7 +64,7 @@ class RenderErrorListenerTest extends TestCase
     public function testOnRenderErrorCreatesAnApiProblemResponseFromException()
     {
         $response = new Response();
-        $request = new Request();
+        $request  = new Request();
         $request->getHeaders()->addHeaderLine('Accept', 'application/json');
 
         $event = new MvcEvent();
@@ -110,7 +110,7 @@ class RenderErrorListenerTest extends TestCase
     public function testOnRenderErrorCreatesAnApiProblemResponseFromThrowable()
     {
         $response = new Response();
-        $request = new Request();
+        $request  = new Request();
         $request->getHeaders()->addHeaderLine('Accept', 'application/json');
 
         $event = new MvcEvent();

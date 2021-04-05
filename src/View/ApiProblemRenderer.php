@@ -8,6 +8,7 @@
 
 namespace Laminas\ApiTools\ApiProblem\View;
 
+use Laminas\View\Model\ModelInterface;
 use Laminas\View\Renderer\JsonRenderer;
 
 class ApiProblemRenderer extends JsonRenderer
@@ -23,7 +24,6 @@ class ApiProblemRenderer extends JsonRenderer
      * Set display_exceptions flag.
      *
      * @param bool $flag
-     *
      * @return self
      */
     public function setDisplayExceptions($flag)
@@ -34,9 +34,8 @@ class ApiProblemRenderer extends JsonRenderer
     }
 
     /**
-     * @param string|\Laminas\View\Model\ModelInterface $nameOrModel
+     * @param string|ModelInterface $nameOrModel
      * @param array|null                             $values
-     *
      * @return string
      */
     public function render($nameOrModel, $values = null)

@@ -15,7 +15,6 @@ use Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy;
 class ApiProblemStrategyFactory
 {
     /**
-     * @param ContainerInterface $container
      * @return ApiProblemStrategy
      */
     public function __invoke(ContainerInterface $container)

@@ -8,16 +8,20 @@
 
 namespace Laminas\ApiTools\ApiProblem;
 
+use Laminas\Http\Headers;
 use Laminas\Http\Response;
+
+use function json_encode;
+
+use const JSON_PARTIAL_OUTPUT_ON_ERROR;
+use const JSON_UNESCAPED_SLASHES;
 
 /**
  * Represents an ApiProblem response payload.
  */
 class ApiProblemResponse extends Response
 {
-    /**
-     * @var ApiProblem
-     */
+    /** @var ApiProblem */
     protected $apiProblem;
 
     /**
@@ -27,9 +31,6 @@ class ApiProblemResponse extends Response
      */
     protected $jsonFlags;
 
-    /**
-     * @param ApiProblem $apiProblem
-     */
     public function __construct(ApiProblem $apiProblem)
     {
         $this->apiProblem = $apiProblem;
@@ -65,7 +66,7 @@ class ApiProblemResponse extends Response
      * Proxies to parent class, but then checks if we have an content-type
      * header; if not, sets it, with a value of "application/problem+json".
      *
-     * @return \Laminas\Http\Headers
+     * @return Headers
      */
     public function getHeaders()
     {

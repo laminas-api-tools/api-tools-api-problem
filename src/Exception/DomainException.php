@@ -12,19 +12,13 @@ class DomainException extends \DomainException implements
     ExceptionInterface,
     ProblemExceptionInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $type;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $details = [];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $title;
 
     /**

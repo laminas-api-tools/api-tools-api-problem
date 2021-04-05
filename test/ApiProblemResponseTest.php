@@ -10,14 +10,20 @@ namespace LaminasTest\ApiTools\ApiProblem;
 
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
+use Laminas\Http\Header\ContentType;
+use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
+
+use function fopen;
+use function json_decode;
+use function strtolower;
 
 class ApiProblemResponseTest extends TestCase
 {
     public function testApiProblemResponseIsAnHttpResponse()
     {
         $response = new ApiProblemResponse(new ApiProblem(400, 'Random error'));
-        $this->assertInstanceOf('Laminas\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     /**
@@ -35,13 +41,13 @@ class ApiProblemResponseTest extends TestCase
     public function testApiProblemResponseBodyIsSerializedApiProblem()
     {
         $additional = [
-            'foo' => fopen('php://memory', 'r')
+            'foo' => fopen('php://memory', 'r'),
         ];
 
         $expected = [
-            'foo' => null,
-            'type' => 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
-            'title' => 'Bad Request',
+            'foo'    => null,
+            'type'   => 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
+            'title'  => 'Bad Request',
             'status' => 400,
             'detail' => 'Random error',
         ];
@@ -60,7 +66,7 @@ class ApiProblemResponseTest extends TestCase
         $headers  = $response->getHeaders();
         $this->assertTrue($headers->has('content-type'));
         $header = $headers->get('content-type');
-        $this->assertInstanceOf('Laminas\Http\Header\ContentType', $header);
+        $this->assertInstanceOf(ContentType::class, $header);
         $this->assertEquals(ApiProblem::CONTENT_TYPE, $header->getFieldValue());
     }
 

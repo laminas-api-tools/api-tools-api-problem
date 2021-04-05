@@ -14,6 +14,7 @@ use Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy;
 use Laminas\Http\Response;
 use Laminas\View\Model\JsonModel;
+use Laminas\View\Model\ModelInterface as Model;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\ViewEvent;
 use PHPUnit\Framework\TestCase;
@@ -23,24 +24,26 @@ class ApiProblemStrategyTest extends TestCase
     protected function setUp(): void
     {
         $this->response = new Response();
-        $this->event = new ViewEvent();
+        $this->event    = new ViewEvent();
         $this->event->setResponse($this->response);
 
         $this->renderer = new ApiProblemRenderer();
         $this->strategy = new ApiProblemStrategy($this->renderer);
     }
 
+    /** @return array */
     public function invalidViewModels()
     {
         return [
-            'null' => [null],
+            'null'    => [null],
             'generic' => [new ViewModel()],
-            'json' => [new JsonModel()],
+            'json'    => [new JsonModel()],
         ];
     }
 
     /**
      * @dataProvider invalidViewModels
+     * @param null|Model $model
      */
     public function testSelectRendererReturnsNullIfModelIsNotAnApiProblemModel($model)
     {
@@ -69,7 +72,7 @@ class ApiProblemStrategyTest extends TestCase
     public function testInjectResponseSetsContentTypeHeaderToApiProblemForApiProblemModel()
     {
         $problem = new ApiProblem(500, 'whatever', 'foo', 'bar');
-        $model = new ApiProblemModel($problem);
+        $model   = new ApiProblemModel($problem);
         $this->event->setModel($model);
         $this->event->setRenderer($this->renderer);
         $this->event->setResult('{"foo":"bar"}');
@@ -80,6 +83,7 @@ class ApiProblemStrategyTest extends TestCase
         $this->assertEquals(ApiProblem::CONTENT_TYPE, $header->getFieldValue());
     }
 
+    /** @return array */
     public function invalidStatusCodes()
     {
         return [
@@ -93,11 +97,12 @@ class ApiProblemStrategyTest extends TestCase
 
     /**
      * @dataProvider invalidStatusCodes
+     * @param int $status
      */
     public function testUsesStatusCode500ForAnyStatusCodesAbove599OrBelow100($status)
     {
         $problem = new ApiProblem($status, 'whatever');
-        $model = new ApiProblemModel($problem);
+        $model   = new ApiProblemModel($problem);
         $this->event->setModel($model);
         $this->event->setRenderer($this->renderer);
         $this->event->setResult('{"foo":"bar"}');

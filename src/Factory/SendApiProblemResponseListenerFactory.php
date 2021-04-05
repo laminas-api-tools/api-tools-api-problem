@@ -15,12 +15,11 @@ use Laminas\Http\Response as HttpResponse;
 class SendApiProblemResponseListenerFactory
 {
     /**
-     * @param ContainerInterface $container
      * @return SendApiProblemResponseListener
      */
     public function __invoke(ContainerInterface $container)
     {
-        $config = $container->get('config');
+        $config            = $container->get('config');
         $displayExceptions = isset($config['view_manager'])
             && isset($config['view_manager']['display_exceptions'])
             && $config['view_manager']['display_exceptions'];
