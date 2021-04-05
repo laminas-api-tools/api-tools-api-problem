@@ -14,12 +14,11 @@ use Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer;
 class ApiProblemRendererFactory
 {
     /**
-     * @param ContainerInterface $container
      * @return ApiProblemRenderer
      */
     public function __invoke(ContainerInterface $container)
     {
-        $config = $container->get('config');
+        $config            = $container->get('config');
         $displayExceptions = isset($config['view_manager'])
             && isset($config['view_manager']['display_exceptions'])
             && $config['view_manager']['display_exceptions'];

@@ -16,11 +16,13 @@ use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Mvc\SendResponseListener;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 class ModuleTest extends TestCase
 {
+    /** @return EventManager */
     public function marshalEventManager()
     {
         $r = new ReflectionClass(EventManager::class);
@@ -36,14 +38,14 @@ class ModuleTest extends TestCase
     {
         $module = new Module();
 
-        $application = $this->getMockBuilder(Application::class)
+        $application    = $this->getMockBuilder(Application::class)
             ->disableOriginalConstructor()
             ->getMock();
         $serviceLocator = $this->getMockForAbstractClass(ServiceLocatorInterface::class);
         $serviceLocator->method('get')->will($this->returnCallback([$this, 'serviceLocator']));
 
         $eventManager = $this->marshalEventManager();
-        $event = $this->getMockBuilder(MvcEvent::class)->getMock();
+        $event        = $this->getMockBuilder(MvcEvent::class)->getMock();
 
         $application->method('getServiceManager')->willReturn($serviceLocator);
         $application->method('getEventManager')->willReturn($eventManager);
@@ -52,22 +54,23 @@ class ModuleTest extends TestCase
         $module->onBootstrap($event);
     }
 
+    /**
+     * @param string $service
+     * @return ApiProblemListener|SendApiProblemResponseListener|SendResponseListener|MockObject
+     */
     public function serviceLocator($service)
     {
         switch ($service) {
-            case 'Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener':
+            case ApiProblemListener::class:
                 return new ApiProblemListener();
-                break;
             case 'SendResponseListener':
                 $listener = $this->getMockBuilder(SendResponseListener::class)->getMock();
                 $listener->method('getEventManager')->willReturn(new EventManager());
 
                 return $listener;
-                break;
             case SendApiProblemResponseListener::class:
                 return new SendApiProblemResponseListener();
             default:
-                //
         }
     }
 }

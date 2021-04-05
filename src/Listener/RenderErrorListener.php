@@ -16,6 +16,8 @@ use Laminas\Mvc\MvcEvent;
 use Laminas\View\Exception\ExceptionInterface as ViewExceptionInterface;
 use Throwable;
 
+use function json_encode;
+
 /**
  * RenderErrorListener.
  *
@@ -23,9 +25,7 @@ use Throwable;
  */
 class RenderErrorListener extends AbstractListenerAggregate
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $displayExceptions = false;
 
     /**
@@ -38,7 +38,6 @@ class RenderErrorListener extends AbstractListenerAggregate
 
     /**
      * @param bool $flag
-     *
      * @return RenderErrorListener
      */
     public function setDisplayExceptions($flag)
@@ -55,20 +54,19 @@ class RenderErrorListener extends AbstractListenerAggregate
      * the PhpRenderer, when we have no templates.
      *
      * As such, report as an unacceptable response.
-     *
-     * @param MvcEvent $e
      */
     public function onRenderError(MvcEvent $e)
     {
-        $response = $e->getResponse();
-        $status = 406;
-        $title = 'Not Acceptable';
+        $response    = $e->getResponse();
+        $status      = 406;
+        $title       = 'Not Acceptable';
         $describedBy = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
-        $detail = 'Your request could not be resolved to an acceptable representation.';
-        $details = false;
+        $detail      = 'Your request could not be resolved to an acceptable representation.';
+        $details     = false;
 
         $exception = $e->getParam('exception');
-        if (($exception instanceof Throwable || $exception instanceof Exception)
+        if (
+            ($exception instanceof Throwable || $exception instanceof Exception)
             && ! $exception instanceof ViewExceptionInterface
         ) {
             $code = $exception->getCode();
@@ -77,20 +75,20 @@ class RenderErrorListener extends AbstractListenerAggregate
             } else {
                 $status = 500;
             }
-            $title = 'Unexpected error';
-            $detail = $exception->getMessage();
+            $title   = 'Unexpected error';
+            $detail  = $exception->getMessage();
             $details = [
-                'code' => $exception->getCode(),
+                'code'    => $exception->getCode(),
                 'message' => $exception->getMessage(),
-                'trace' => $exception->getTraceAsString(),
+                'trace'   => $exception->getTraceAsString(),
             ];
         }
 
         $payload = [
-            'status' => $status,
-            'title' => $title,
+            'status'      => $status,
+            'title'       => $title,
             'describedBy' => $describedBy,
-            'detail' => $detail,
+            'detail'      => $detail,
         ];
         if ($details && $this->displayExceptions) {
             $payload['details'] = $details;

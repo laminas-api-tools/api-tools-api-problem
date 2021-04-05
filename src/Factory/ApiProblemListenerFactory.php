@@ -14,13 +14,12 @@ use Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener;
 class ApiProblemListenerFactory
 {
     /**
-     * @param ContainerInterface $container
      * @return ApiProblemListener
      */
     public function __invoke(ContainerInterface $container)
     {
         $filters = null;
-        $config = [];
+        $config  = [];
 
         if ($container->has('config')) {
             $config = $container->get('config');

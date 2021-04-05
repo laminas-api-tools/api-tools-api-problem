@@ -13,25 +13,16 @@ use Laminas\View\Model\ViewModel;
 
 class ApiProblemModel extends ViewModel
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $captureTo = 'errors';
 
-    /**
-     * @var ApiProblem
-     */
+    /** @var ApiProblem */
     protected $problem;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $terminate = true;
 
-    /**
-     * @param ApiProblem|null $problem
-     */
-    public function __construct(ApiProblem $problem = null)
+    public function __construct(?ApiProblem $problem = null)
     {
         if ($problem instanceof ApiProblem) {
             $this->setApiProblem($problem);
@@ -39,8 +30,6 @@ class ApiProblemModel extends ViewModel
     }
 
     /**
-     * @param ApiProblem $problem
-     *
      * @return ApiProblemModel
      */
     public function setApiProblem(ApiProblem $problem)

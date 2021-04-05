@@ -17,8 +17,13 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\Header\Accept as AcceptHeader;
 use Laminas\Http\Request as HttpRequest;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Stdlib\DispatchableInterface;
 use Laminas\View\Model\ModelInterface;
 use Throwable;
+
+use function in_array;
+use function is_array;
+use function is_string;
 
 /**
  * ApiProblemListener.
@@ -41,8 +46,6 @@ class ApiProblemListener extends AbstractListenerAggregate
     ];
 
     /**
-     * Constructor.
-     *
      * Set the accept filter, if one is passed
      *
      * @param string|array $filters
@@ -70,7 +73,7 @@ class ApiProblemListener extends AbstractListenerAggregate
 
         $sharedEvents = $events->getSharedManager();
         $sharedEvents->attach(
-            'Laminas\Stdlib\DispatchableInterface',
+            DispatchableInterface::class,
             MvcEvent::EVENT_DISPATCH,
             [$this, 'onDispatch'],
             100
@@ -79,8 +82,6 @@ class ApiProblemListener extends AbstractListenerAggregate
 
     /**
      * Listen to the render event.
-     *
-     * @param MvcEvent $e
      */
     public function onRender(MvcEvent $e)
     {
@@ -96,7 +97,7 @@ class ApiProblemListener extends AbstractListenerAggregate
         }
 
         // Marshal the information we need for the API-Problem response
-        $status = $e->getResponse()->getStatusCode();
+        $status    = $e->getResponse()->getStatusCode();
         $exception = $model->getVariable('exception');
 
         if ($exception instanceof Throwable || $exception instanceof Exception) {
@@ -116,20 +117,18 @@ class ApiProblemListener extends AbstractListenerAggregate
      * Handle dispatch.
      *
      * It checks if the controller is in our list
-     *
-     * @param MvcEvent $e
      */
     public function onDispatch(MvcEvent $e)
     {
-        $app = $e->getApplication();
+        $app      = $e->getApplication();
         $services = $app->getServiceManager();
-        $config = $services->get('config');
+        $config   = $services->get('config');
 
         if (! isset($config['api-tools-api-problem']['render_error_controllers'])) {
             return;
         }
 
-        $controller = $e->getRouteMatch()->getParam('controller');
+        $controller  = $e->getRouteMatch()->getParam('controller');
         $controllers = $config['api-tools-api-problem']['render_error_controllers'];
         if (! in_array($controller, $controllers)) {
             // The current controller is not in our list of controllers to handle
@@ -146,8 +145,6 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * If the event represents an error, and has an exception composed, marshals an ApiProblem
      * based on the exception, stops event propagation, and returns an ApiProblemResponse.
-     *
-     * @param MvcEvent $e
      *
      * @return ApiProblemResponse
      */
@@ -173,8 +170,6 @@ class ApiProblemListener extends AbstractListenerAggregate
 
     /**
      * Determine if we have a valid error event.
-     *
-     * @param MvcEvent $e
      *
      * @return bool
      */
@@ -212,15 +207,13 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * Otherwise, return based on whether or not one or more criteria match.
      *
-     * @param AcceptHeader $accept
-     *
      * @return bool
      */
     protected function matchAcceptCriteria(AcceptHeader $accept)
     {
         foreach ($this->acceptFilters as $type) {
             $match = $accept->match($type);
-            if ($match && $match->getTypeString() != '*/*') {
+            if ($match && $match->getTypeString() !== '*/*') {
                 return true;
             }
         }

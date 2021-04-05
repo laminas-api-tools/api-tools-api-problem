@@ -8,13 +8,15 @@
 
 namespace Laminas\ApiTools\ApiProblem\Exception;
 
+use Traversable;
+
 /**
  * Interface for exceptions that can provide additional API Problem details.
  */
 interface ProblemExceptionInterface
 {
     /**
-     * @return null|array|\Traversable
+     * @return null|array|Traversable
      */
     public function getAdditionalDetails();
 

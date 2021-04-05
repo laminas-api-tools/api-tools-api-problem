@@ -13,6 +13,17 @@ use Laminas\ApiTools\ApiProblem\Exception\InvalidArgumentException;
 use Laminas\ApiTools\ApiProblem\Exception\ProblemExceptionInterface;
 use Throwable;
 
+use function array_key_exists;
+use function array_keys;
+use function array_merge;
+use function count;
+use function get_class;
+use function in_array;
+use function is_numeric;
+use function sprintf;
+use function strtolower;
+use function trim;
+
 /**
  * Object describing an API-Problem payload.
  */
@@ -21,7 +32,7 @@ class ApiProblem
     /**
      * Content type for api problem response
      */
-    const CONTENT_TYPE = 'application/problem+json';
+    public const CONTENT_TYPE = 'application/problem+json';
 
     /**
      * Additional details to include in report.
@@ -65,9 +76,9 @@ class ApiProblem
      * @var array
      */
     protected $normalizedProperties = [
-        'type' => 'type',
+        'type'   => 'type',
         'status' => 'status',
-        'title' => 'title',
+        'title'  => 'title',
         'detail' => 'detail',
     ];
 
@@ -126,8 +137,6 @@ class ApiProblem
     protected $title;
 
     /**
-     * Constructor.
-     *
      * Create an instance using the provided information. If nothing is
      * provided for the type field, the class default will be used;
      * if the status matches any known, the title field will be selected
@@ -154,7 +163,8 @@ class ApiProblem
         }
 
         // Ensure a valid HTTP status
-        if (! is_numeric($status)
+        if (
+            ! is_numeric($status)
             || ($status < 100)
             || ($status > 599)
         ) {
@@ -163,7 +173,7 @@ class ApiProblem
 
         $this->status = $status;
         $this->detail = $detail;
-        $this->title = $title;
+        $this->title  = $title;
 
         if (null !== $type) {
             $this->type = $type;
@@ -210,8 +220,8 @@ class ApiProblem
     public function toArray()
     {
         $problem = [
-            'type' => $this->type,
-            'title' => $this->getTitle(),
+            'type'   => $this->type,
+            'title'  => $this->getTitle(),
             'status' => $this->getStatus(),
             'detail' => $this->getDetail(),
         ];
@@ -286,8 +296,9 @@ class ApiProblem
             return $this->title;
         }
 
-        if (null === $this->title
-            && $this->type == 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
+        if (
+            null === $this->title
+            && $this->type === 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
             && array_key_exists($this->getStatus(), $this->problemStatusTitles)
         ) {
             return $this->problemStatusTitles[$this->status];
@@ -318,18 +329,18 @@ class ApiProblem
             return $e->getMessage();
         }
 
-        $message = trim($e->getMessage());
+        $message                          = trim($e->getMessage());
         $this->additionalDetails['trace'] = $e->getTrace();
 
         $previous = [];
-        $e = $e->getPrevious();
+        $e        = $e->getPrevious();
         while ($e) {
             $previous[] = [
-                'code' => (int) $e->getCode(),
+                'code'    => (int) $e->getCode(),
                 'message' => trim($e->getMessage()),
-                'trace' => $e->getTrace(),
+                'trace'   => $e->getTrace(),
             ];
-            $e = $e->getPrevious();
+            $e          = $e->getPrevious();
         }
         if (count($previous)) {
             $this->additionalDetails['exception_stack'] = $previous;
@@ -346,7 +357,7 @@ class ApiProblem
     protected function createStatusFromException()
     {
         /** @var Exception|Throwable $e */
-        $e = $this->detail;
+        $e      = $this->detail;
         $status = $e->getCode();
 
         if ($status) {
