@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 class SendApiProblemResponseListenerTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->exception = new DomainException('Random error', 400);
         $this->apiProblem = new ApiProblem(400, $this->exception);
@@ -55,10 +55,10 @@ class SendApiProblemResponseListenerTest extends TestCase
         ob_start();
         $this->listener->sendContent($this->event);
         $contents = ob_get_clean();
-        $this->assertInternalType('string', $contents);
+        $this->assertIsString($contents);
         $data = json_decode($contents, true);
-        $this->assertNotContains("\n", $data['detail']);
-        $this->assertNotContains($this->exception->getTraceAsString(), $data['detail']);
+        $this->assertStringNotContainsString("\n", $data['detail']);
+        $this->assertStringNotContainsString($this->exception->getTraceAsString(), $data['detail']);
     }
 
     public function testEnablingDisplayExceptionFlagRendersExceptionStackTrace()
@@ -67,10 +67,10 @@ class SendApiProblemResponseListenerTest extends TestCase
         ob_start();
         $this->listener->sendContent($this->event);
         $contents = ob_get_clean();
-        $this->assertInternalType('string', $contents);
+        $this->assertIsString($contents);
         $data = json_decode($contents, true);
         $this->assertArrayHasKey('trace', $data);
-        $this->assertInternalType('array', $data['trace']);
+        $this->assertIsArray($data['trace']);
         $this->assertGreaterThanOrEqual(1, count($data['trace']));
     }
 
@@ -80,7 +80,7 @@ class SendApiProblemResponseListenerTest extends TestCase
         ob_start();
         $this->listener->sendContent($this->event);
         $contents = ob_get_clean();
-        $this->assertInternalType('string', $contents);
+        $this->assertIsString($contents);
         $this->assertEmpty($contents);
     }
 

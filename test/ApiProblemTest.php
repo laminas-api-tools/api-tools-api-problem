@@ -91,7 +91,7 @@ class ApiProblemTest extends TestCase
         $apiProblem->setDetailIncludesStackTrace(true);
         $payload = $apiProblem->toArray();
         $this->assertArrayHasKey('trace', $payload);
-        $this->assertInternalType('array', $payload['trace']);
+        $this->assertIsArray($payload['trace']);
         $this->assertEquals($exception->getTrace(), $payload['trace']);
     }
 
@@ -104,7 +104,7 @@ class ApiProblemTest extends TestCase
         $apiProblem->setDetailIncludesStackTrace(true);
         $payload = $apiProblem->toArray();
         $this->assertArrayHasKey('exception_stack', $payload);
-        $this->assertInternalType('array', $payload['exception_stack']);
+        $this->assertIsArray($payload['exception_stack']);
         $expected = [
             [
                 'code' => $exceptionChild->getCode(),
