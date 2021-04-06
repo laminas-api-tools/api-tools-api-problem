@@ -298,7 +298,7 @@ class ApiProblem
             return $this->problemStatusTitles[$this->status];
         }
 
-        if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
+        if ($this->detail instanceof Throwable) {
             return get_class($this->detail);
         }
 
