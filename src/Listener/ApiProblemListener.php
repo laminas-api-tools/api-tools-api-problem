@@ -76,6 +76,8 @@ class ApiProblemListener extends AbstractListenerAggregate
 
     /**
      * Listen to the render event.
+     *
+     * @return void
      */
     public function onRender(MvcEvent $e)
     {
@@ -111,6 +113,8 @@ class ApiProblemListener extends AbstractListenerAggregate
      * Handle dispatch.
      *
      * It checks if the controller is in our list
+     *
+     * @return void
      */
     public function onDispatch(MvcEvent $e)
     {
@@ -140,7 +144,7 @@ class ApiProblemListener extends AbstractListenerAggregate
      * If the event represents an error, and has an exception composed, marshals an ApiProblem
      * based on the exception, stops event propagation, and returns an ApiProblemResponse.
      *
-     * @return ApiProblemResponse
+     * @return ApiProblemResponse|null
      */
     public function onDispatchError(MvcEvent $e)
     {

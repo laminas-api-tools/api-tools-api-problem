@@ -18,7 +18,7 @@ class ApiProblemRendererTest extends TestCase
         $this->renderer = new ApiProblemRenderer();
     }
 
-    public function testRendersApiProblemCorrectly()
+    public function testRendersApiProblemCorrectly(): void
     {
         $apiProblem = new ApiProblem(401, 'login error', 'http://status.dev/errors.md', 'Unauthorized');
         $model      = new ApiProblemModel();
@@ -33,7 +33,7 @@ class ApiProblemRendererTest extends TestCase
         $this->assertEquals($expected, json_decode($test, true));
     }
 
-    public function testCanHintToApiProblemToRenderStackTrace()
+    public function testCanHintToApiProblemToRenderStackTrace(): void
     {
         $exception  = new Exception('exception message', 500);
         $apiProblem = new ApiProblem(500, $exception);

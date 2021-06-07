@@ -24,7 +24,7 @@ class RenderErrorListenerTest extends TestCase
         $this->listener = new RenderErrorListener();
     }
 
-    public function testOnRenderErrorCreatesAnApiProblemResponse()
+    public function testOnRenderErrorCreatesAnApiProblemResponse(): void
     {
         $response = new Response();
         $request  = new Request();
@@ -55,7 +55,7 @@ class RenderErrorListenerTest extends TestCase
         $this->assertStringContainsString('accept', $content['detail']);
     }
 
-    public function testOnRenderErrorCreatesAnApiProblemResponseFromException()
+    public function testOnRenderErrorCreatesAnApiProblemResponseFromException(): void
     {
         $response = new Response();
         $request  = new Request();
@@ -101,7 +101,7 @@ class RenderErrorListenerTest extends TestCase
     /**
      * @requires PHP 7.0
      */
-    public function testOnRenderErrorCreatesAnApiProblemResponseFromThrowable()
+    public function testOnRenderErrorCreatesAnApiProblemResponseFromThrowable(): void
     {
         $response = new Response();
         $request  = new Request();

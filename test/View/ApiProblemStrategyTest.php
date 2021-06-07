@@ -8,7 +8,6 @@ use Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy;
 use Laminas\Http\Response;
 use Laminas\View\Model\JsonModel;
-use Laminas\View\Model\ModelInterface as Model;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\ViewEvent;
 use PHPUnit\Framework\TestCase;
@@ -37,9 +36,8 @@ class ApiProblemStrategyTest extends TestCase
 
     /**
      * @dataProvider invalidViewModels
-     * @param null|Model $model
      */
-    public function testSelectRendererReturnsNullIfModelIsNotAnApiProblemModel(?ViewModel $model)
+    public function testSelectRendererReturnsNullIfModelIsNotAnApiProblemModel(?ViewModel $model): void
     {
         if (null !== $model) {
             $this->event->setModel($model);
@@ -47,14 +45,14 @@ class ApiProblemStrategyTest extends TestCase
         $this->assertNull($this->strategy->selectRenderer($this->event));
     }
 
-    public function testSelectRendererReturnsRendererIfModelIsAnApiProblemModel()
+    public function testSelectRendererReturnsRendererIfModelIsAnApiProblemModel(): void
     {
         $model = new ApiProblemModel();
         $this->event->setModel($model);
         $this->assertSame($this->renderer, $this->strategy->selectRenderer($this->event));
     }
 
-    public function testInjectResponseDoesNotSetContentTypeHeaderIfResultIsNotString()
+    public function testInjectResponseDoesNotSetContentTypeHeaderIfResultIsNotString(): void
     {
         $this->event->setRenderer($this->renderer);
         $this->event->setResult(['foo']);
@@ -63,7 +61,7 @@ class ApiProblemStrategyTest extends TestCase
         $this->assertFalse($headers->has('Content-Type'));
     }
 
-    public function testInjectResponseSetsContentTypeHeaderToApiProblemForApiProblemModel()
+    public function testInjectResponseSetsContentTypeHeaderToApiProblemForApiProblemModel(): void
     {
         $problem = new ApiProblem(500, 'whatever', 'foo', 'bar');
         $model   = new ApiProblemModel($problem);
@@ -92,7 +90,7 @@ class ApiProblemStrategyTest extends TestCase
     /**
      * @dataProvider invalidStatusCodes
      */
-    public function testUsesStatusCode500ForAnyStatusCodesAbove599OrBelow100(int $status)
+    public function testUsesStatusCode500ForAnyStatusCodesAbove599OrBelow100(int $status): void
     {
         $problem = new ApiProblem($status, 'whatever');
         $model   = new ApiProblemModel($problem);
