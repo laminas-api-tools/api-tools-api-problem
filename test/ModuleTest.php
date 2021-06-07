@@ -10,7 +10,6 @@ use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Mvc\SendResponseListener;
 use Laminas\ServiceManager\ServiceLocatorInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 

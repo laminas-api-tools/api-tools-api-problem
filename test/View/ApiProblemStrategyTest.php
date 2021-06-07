@@ -91,7 +91,6 @@ class ApiProblemStrategyTest extends TestCase
 
     /**
      * @dataProvider invalidStatusCodes
-     * @param int $status
      */
     public function testUsesStatusCode500ForAnyStatusCodesAbove599OrBelow100(int $status)
     {

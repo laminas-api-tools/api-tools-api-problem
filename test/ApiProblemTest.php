@@ -28,7 +28,6 @@ class ApiProblemTest extends TestCase
 
     /**
      * @dataProvider statusCodes
-     * @param int $status
      */
     public function testStatusIsUsedVerbatim(int $status)
     {
@@ -133,7 +132,6 @@ class ApiProblemTest extends TestCase
 
     /**
      * @dataProvider knownStatusCodes
-     * @param int $status
      */
     public function testKnownStatusResultsInKnownTitle(int $status)
     {
@@ -249,7 +247,6 @@ class ApiProblemTest extends TestCase
     /**
      * @dataProvider invalidStatusCodes
      * @group api-tools-118
-     * @param int $code
      */
     public function testInvalidHttpStatusCodesAreCastTo500(int $code)
     {
