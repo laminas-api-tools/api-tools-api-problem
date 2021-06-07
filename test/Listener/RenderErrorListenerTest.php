@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
- * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\ApiTools\ApiProblem\Listener;
 
 use Laminas\ApiTools\ApiProblem\ApiProblem;
@@ -18,11 +12,11 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use TypeError;
 
+use function json_decode;
+
 class RenderErrorListenerTest extends TestCase
 {
-    /**
-     * @var RenderErrorListener
-     */
+    /** @var RenderErrorListener */
     protected $listener;
 
     protected function setUp()
@@ -33,7 +27,7 @@ class RenderErrorListenerTest extends TestCase
     public function testOnRenderErrorCreatesAnApiProblemResponse()
     {
         $response = new Response();
-        $request = new Request();
+        $request  = new Request();
         $request->getHeaders()->addHeaderLine('Accept', 'application/json');
 
         $event = new MvcEvent();
@@ -64,7 +58,7 @@ class RenderErrorListenerTest extends TestCase
     public function testOnRenderErrorCreatesAnApiProblemResponseFromException()
     {
         $response = new Response();
-        $request = new Request();
+        $request  = new Request();
         $request->getHeaders()->addHeaderLine('Accept', 'application/json');
 
         $event = new MvcEvent();
@@ -110,7 +104,7 @@ class RenderErrorListenerTest extends TestCase
     public function testOnRenderErrorCreatesAnApiProblemResponseFromThrowable()
     {
         $response = new Response();
-        $request = new Request();
+        $request  = new Request();
         $request->getHeaders()->addHeaderLine('Accept', 'application/json');
 
         $event = new MvcEvent();

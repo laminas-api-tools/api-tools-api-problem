@@ -1,16 +1,12 @@
 <?php
 
-/**
- * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
- * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\ApiTools\ApiProblem\View;
 
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\View\Strategy\JsonStrategy;
 use Laminas\View\ViewEvent;
+
+use function is_string;
 
 /**
  * Extension of the JSON strategy to handle the ApiProblemModel and provide
@@ -23,9 +19,6 @@ use Laminas\View\ViewEvent;
  */
 class ApiProblemStrategy extends JsonStrategy
 {
-    /**
-     * @param ApiProblemRenderer $renderer
-     */
     public function __construct(ApiProblemRenderer $renderer)
     {
         $this->renderer = $renderer;
@@ -33,8 +26,6 @@ class ApiProblemStrategy extends JsonStrategy
 
     /**
      * Detect if we should use the ApiProblemRenderer based on model type.
-     *
-     * @param ViewEvent $e
      *
      * @return null|ApiProblemRenderer
      */
@@ -56,8 +47,6 @@ class ApiProblemStrategy extends JsonStrategy
      *
      * Injects the response with the rendered content, and sets the content
      * type based on the detection that occurred during renderer selection.
-     *
-     * @param ViewEvent $e
      */
     public function injectResponse(ViewEvent $e)
     {
@@ -89,8 +78,6 @@ class ApiProblemStrategy extends JsonStrategy
      * Retrieve the HTTP status from an ApiProblem object.
      *
      * Ensures that the status falls within the acceptable range (100 - 599).
-     *
-     * @param ApiProblem $problem
      *
      * @return int
      */

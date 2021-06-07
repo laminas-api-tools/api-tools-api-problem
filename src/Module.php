@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
- * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\ApiTools\ApiProblem;
 
 use Laminas\ApiTools\ApiProblem\Listener\SendApiProblemResponseListener;
@@ -28,12 +22,10 @@ class Module
      * Listener for bootstrap event.
      *
      * Attaches a render event.
-     *
-     * @param  MvcEvent $e
      */
     public function onBootstrap(MvcEvent $e)
     {
-        $app = $e->getTarget();
+        $app            = $e->getTarget();
         $serviceManager = $app->getServiceManager();
         $eventManager   = $app->getEventManager();
 
@@ -52,16 +44,14 @@ class Module
      * Listener for the render event.
      *
      * Attaches a rendering/response strategy to the View.
-     *
-     * @param  MvcEvent $e
      */
     public function onRender(MvcEvent $e)
     {
-        $app = $e->getTarget();
+        $app      = $e->getTarget();
         $services = $app->getServiceManager();
 
         if ($services->has('View')) {
-            $view = $services->get('View');
+            $view   = $services->get('View');
             $events = $view->getEventManager();
 
             // register at high priority, to "beat" normal json strategy registered

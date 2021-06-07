@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
- * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\ApiTools\ApiProblem\Listener;
 
 use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
@@ -18,19 +12,13 @@ use Laminas\Mvc\ResponseSender\SendResponseEvent;
  */
 class SendApiProblemResponseListener extends HttpResponseSender
 {
-    /**
-     * @var HttpResponse;
-     */
+    /** @var HttpResponse; */
     protected $applicationResponse;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $displayExceptions = false;
 
     /**
-     * @param HttpResponse $response
-     *
      * @return self
      */
     public function setApplicationResponse(HttpResponse $response)
@@ -44,7 +32,6 @@ class SendApiProblemResponseListener extends HttpResponseSender
      * Set the flag determining whether exception stack traces are included.
      *
      * @param bool $flag
-     *
      * @return self
      */
     public function setDisplayExceptions($flag)
@@ -70,8 +57,6 @@ class SendApiProblemResponseListener extends HttpResponseSender
      * Sets the composed ApiProblem's flag for including the stack trace in the
      * detail based on the display exceptions flag, and then sends content.
      *
-     * @param SendResponseEvent $e
-     *
      * @return self
      */
     public function sendContent(SendResponseEvent $e)
@@ -90,8 +75,6 @@ class SendApiProblemResponseListener extends HttpResponseSender
      *
      * If an application response is composed, and is an HTTP response, merges
      * its headers with the ApiProblemResponse headers prior to sending them.
-     *
-     * @param SendResponseEvent $e
      *
      * @return self
      */
@@ -112,8 +95,6 @@ class SendApiProblemResponseListener extends HttpResponseSender
     /**
      * Send ApiProblem response.
      *
-     * @param SendResponseEvent $event
-     *
      * @return self
      */
     public function __invoke(SendResponseEvent $event)
@@ -132,9 +113,6 @@ class SendApiProblemResponseListener extends HttpResponseSender
 
     /**
      * Merge headers set on the application response into the API Problem response.
-     *
-     * @param HttpResponse       $applicationResponse
-     * @param ApiProblemResponse $apiProblemResponse
      */
     protected function mergeHeaders(HttpResponse $applicationResponse, ApiProblemResponse $apiProblemResponse)
     {

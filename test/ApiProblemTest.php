@@ -1,21 +1,17 @@
 <?php
 
-/**
- * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
- * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\ApiTools\ApiProblem;
 
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\ApiProblem\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
+use TypeError;
 
 class ApiProblemTest extends TestCase
 {
-    public function statusCodes()
+    /** @psalm-return array<string, array{0: int}> */
+    public function statusCodes(): array
     {
         return [
             '200' => [200],
@@ -33,10 +29,10 @@ class ApiProblemTest extends TestCase
     /**
      * @dataProvider statusCodes
      */
-    public function testStatusIsUsedVerbatim($status)
+    public function testStatusIsUsedVerbatim(int $status)
     {
         $apiProblem = new ApiProblem($status, 'foo');
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('status', $payload);
         $this->assertEquals($status, $payload['status']);
     }
@@ -46,9 +42,9 @@ class ApiProblemTest extends TestCase
      */
     public function testErrorAsDetails()
     {
-        $error = new \TypeError('error message', 705);
+        $error      = new TypeError('error message', 705);
         $apiProblem = new ApiProblem(500, $error);
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
 
         $this->assertArrayHasKey('title', $payload);
         $this->assertEquals('TypeError', $payload['title']);
@@ -60,9 +56,9 @@ class ApiProblemTest extends TestCase
 
     public function testExceptionCodeIsUsedForStatus()
     {
-        $exception = new \Exception('exception message', 401);
+        $exception  = new \Exception('exception message', 401);
         $apiProblem = new ApiProblem('500', $exception);
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('status', $payload);
         $this->assertEquals($exception->getCode(), $payload['status']);
     }
@@ -70,23 +66,23 @@ class ApiProblemTest extends TestCase
     public function testDetailStringIsUsedVerbatim()
     {
         $apiProblem = new ApiProblem('500', 'foo');
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('detail', $payload);
         $this->assertEquals('foo', $payload['detail']);
     }
 
     public function testExceptionMessageIsUsedForDetail()
     {
-        $exception = new \Exception('exception message');
+        $exception  = new \Exception('exception message');
         $apiProblem = new ApiProblem('500', $exception);
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('detail', $payload);
         $this->assertEquals($exception->getMessage(), $payload['detail']);
     }
 
     public function testExceptionsCanTriggerInclusionOfStackTraceInDetails()
     {
-        $exception = new \Exception('exception message');
+        $exception  = new \Exception('exception message');
         $apiProblem = new ApiProblem('500', $exception);
         $apiProblem->setDetailIncludesStackTrace(true);
         $payload = $apiProblem->toArray();
@@ -97,7 +93,7 @@ class ApiProblemTest extends TestCase
 
     public function testExceptionsCanTriggerInclusionOfNestedExceptions()
     {
-        $exceptionChild = new \Exception('child exception');
+        $exceptionChild  = new \Exception('child exception');
         $exceptionParent = new \Exception('parent exception', null, $exceptionChild);
 
         $apiProblem = new ApiProblem('500', $exceptionParent);
@@ -107,9 +103,9 @@ class ApiProblemTest extends TestCase
         $this->assertInternalType('array', $payload['exception_stack']);
         $expected = [
             [
-                'code' => $exceptionChild->getCode(),
+                'code'    => $exceptionChild->getCode(),
                 'message' => $exceptionChild->getMessage(),
-                'trace' => $exceptionChild->getTrace(),
+                'trace'   => $exceptionChild->getTrace(),
             ],
         ];
         $this->assertEquals($expected, $payload['exception_stack']);
@@ -118,12 +114,13 @@ class ApiProblemTest extends TestCase
     public function testTypeUrlIsUsedVerbatim()
     {
         $apiProblem = new ApiProblem('500', 'foo', 'http://status.dev:8080/details.md');
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('type', $payload);
         $this->assertEquals('http://status.dev:8080/details.md', $payload['type']);
     }
 
-    public function knownStatusCodes()
+    /** @psalm-return array<string, array{0: int}> */
+    public function knownStatusCodes(): array
     {
         return [
             '404' => [404],
@@ -136,11 +133,11 @@ class ApiProblemTest extends TestCase
     /**
      * @dataProvider knownStatusCodes
      */
-    public function testKnownStatusResultsInKnownTitle($status)
+    public function testKnownStatusResultsInKnownTitle(int $status)
     {
         $apiProblem = new ApiProblem($status, 'foo');
-        $r = new ReflectionObject($apiProblem);
-        $p = $r->getProperty('problemStatusTitles');
+        $r          = new ReflectionObject($apiProblem);
+        $p          = $r->getProperty('problemStatusTitles');
         $p->setAccessible(true);
         $titles = $p->getValue($apiProblem);
 
@@ -152,7 +149,7 @@ class ApiProblemTest extends TestCase
     public function testUnknownStatusResultsInUnknownTitle()
     {
         $apiProblem = new ApiProblem(420, 'foo');
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('title', $payload);
         $this->assertEquals('Unknown', $payload['title']);
     }
@@ -160,7 +157,7 @@ class ApiProblemTest extends TestCase
     public function testProvidedTitleIsUsedVerbatim()
     {
         $apiProblem = new ApiProblem('500', 'foo', 'http://status.dev:8080/details.md', 'some title');
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('title', $payload);
         $this->assertEquals('some title', $payload['title']);
     }
@@ -186,7 +183,7 @@ class ApiProblemTest extends TestCase
             'Invalid entity',
             ['foo' => 'bar']
         );
-        $array = $problem->toArray();
+        $array   = $problem->toArray();
         $this->assertArrayHasKey('foo', $array);
         $this->assertEquals('bar', $array['foo']);
     }
@@ -200,7 +197,7 @@ class ApiProblemTest extends TestCase
             'Invalid entity',
             ['title' => 'SHOULD NOT GET THIS']
         );
-        $array = $problem->toArray();
+        $array   = $problem->toArray();
         $this->assertArrayHasKey('title', $array);
         $this->assertEquals('Invalid entity', $array['title']);
     }
@@ -210,7 +207,7 @@ class ApiProblemTest extends TestCase
         $exception = new Exception\DomainException('exception message', 401);
         $exception->setTitle('problem title');
         $apiProblem = new ApiProblem('401', $exception);
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('title', $payload);
         $this->assertEquals($exception->getTitle(), $payload['title']);
     }
@@ -220,7 +217,7 @@ class ApiProblemTest extends TestCase
         $exception = new Exception\DomainException('exception message', 401);
         $exception->setType('http://example.com/api/help/401');
         $apiProblem = new ApiProblem('401', $exception);
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('type', $payload);
         $this->assertEquals($exception->getType(), $payload['type']);
     }
@@ -230,18 +227,19 @@ class ApiProblemTest extends TestCase
         $exception = new Exception\DomainException('exception message', 401);
         $exception->setAdditionalDetails(['foo' => 'bar']);
         $apiProblem = new ApiProblem('401', $exception);
-        $payload = $apiProblem->toArray();
+        $payload    = $apiProblem->toArray();
         $this->assertArrayHasKey('foo', $payload);
         $this->assertEquals('bar', $payload['foo']);
     }
 
-    public function invalidStatusCodes()
+    /** @psalm-return array<string, array{0: int}> */
+    public function invalidStatusCodes(): array
     {
         return [
-            '-1' => [-1],
-            '0' => [0],
-            '7' => [7],  // reported
-            '14' => [14], // observed
+            '-1'  => [-1],
+            '0'   => [0],
+            '7'   => [7], // reported
+            '14'  => [14], // observed
             '600' => [600],
         ];
     }
@@ -250,9 +248,9 @@ class ApiProblemTest extends TestCase
      * @dataProvider invalidStatusCodes
      * @group api-tools-118
      */
-    public function testInvalidHttpStatusCodesAreCastTo500($code)
+    public function testInvalidHttpStatusCodesAreCastTo500(int $code)
     {
-        $e = new \Exception('Testing', $code);
+        $e       = new \Exception('Testing', $code);
         $problem = new ApiProblem($code, $e);
         $this->assertEquals(500, $problem->status);
     }
