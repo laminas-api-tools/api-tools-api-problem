@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
- * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\ApiTools\ApiProblem\Listener;
 
 use Laminas\ApiTools\ApiProblem\ApiProblem;
@@ -13,24 +7,30 @@ use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
 use Laminas\ApiTools\ApiProblem\Exception\DomainException;
 use Laminas\ApiTools\ApiProblem\Listener\SendApiProblemResponseListener;
 use Laminas\Http\Response as HttpResponse;
+use Laminas\Mvc\ResponseSender\ResponseSenderInterface;
 use Laminas\Mvc\ResponseSender\SendResponseEvent;
 use PHPUnit\Framework\TestCase;
+
+use function count;
+use function json_decode;
+use function ob_get_clean;
+use function ob_start;
 
 class SendApiProblemResponseListenerTest extends TestCase
 {
     protected function setUp()
     {
-        $this->exception = new DomainException('Random error', 400);
+        $this->exception  = new DomainException('Random error', 400);
         $this->apiProblem = new ApiProblem(400, $this->exception);
-        $this->response = new ApiProblemResponse($this->apiProblem);
-        $this->event = new SendResponseEvent();
+        $this->response   = new ApiProblemResponse($this->apiProblem);
+        $this->event      = new SendResponseEvent();
         $this->event->setResponse($this->response);
         $this->listener = new SendApiProblemResponseListener();
     }
 
     public function testListenerImplementsResponseSenderInterface()
     {
-        $this->assertInstanceOf('Laminas\Mvc\ResponseSender\ResponseSenderInterface', $this->listener);
+        $this->assertInstanceOf(ResponseSenderInterface::class, $this->listener);
     }
 
     public function testDisplayExceptionsFlagIsFalseByDefault()

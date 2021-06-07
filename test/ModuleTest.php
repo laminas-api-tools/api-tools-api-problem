@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
- * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\ApiTools\ApiProblem;
 
 use Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener;
@@ -21,6 +15,9 @@ use ReflectionClass;
 
 class ModuleTest extends TestCase
 {
+    /**
+     * @return EventManager
+     */
     public function marshalEventManager()
     {
         $r = new ReflectionClass(EventManager::class);
@@ -36,14 +33,14 @@ class ModuleTest extends TestCase
     {
         $module = new Module();
 
-        $application = $this->getMockBuilder(Application::class)
+        $application    = $this->getMockBuilder(Application::class)
             ->disableOriginalConstructor()
             ->getMock();
         $serviceLocator = $this->getMockForAbstractClass(ServiceLocatorInterface::class);
         $serviceLocator->method('get')->will($this->returnCallback([$this, 'serviceLocator']));
 
         $eventManager = $this->marshalEventManager();
-        $event = $this->getMockBuilder(MvcEvent::class)->getMock();
+        $event        = $this->getMockBuilder(MvcEvent::class)->getMock();
 
         $application->method('getServiceManager')->willReturn($serviceLocator);
         $application->method('getEventManager')->willReturn($eventManager);
@@ -52,22 +49,23 @@ class ModuleTest extends TestCase
         $module->onBootstrap($event);
     }
 
-    public function serviceLocator($service)
+    /**
+     * @return null|ApiProblemListener|SendResponseListener|SendApiProblemResponseListener
+     */
+    public function serviceLocator(string $service)
     {
         switch ($service) {
-            case 'Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener':
+            case ApiProblemListener::class:
                 return new ApiProblemListener();
-                break;
             case 'SendResponseListener':
                 $listener = $this->getMockBuilder(SendResponseListener::class)->getMock();
                 $listener->method('getEventManager')->willReturn(new EventManager());
 
                 return $listener;
-                break;
             case SendApiProblemResponseListener::class:
                 return new SendApiProblemResponseListener();
             default:
-                //
+                return null;
         }
     }
 }

@@ -1,13 +1,8 @@
 <?php
 
-/**
- * @see       https://github.com/laminas-api-tools/api-tools-api-problem for the canonical source repository
- * @copyright https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas-api-tools/api-tools-api-problem/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\ApiTools\ApiProblem\View;
 
+use Laminas\View\Model\ModelInterface;
 use Laminas\View\Renderer\JsonRenderer;
 
 class ApiProblemRenderer extends JsonRenderer
@@ -23,7 +18,6 @@ class ApiProblemRenderer extends JsonRenderer
      * Set display_exceptions flag.
      *
      * @param bool $flag
-     *
      * @return self
      */
     public function setDisplayExceptions($flag)
@@ -34,9 +28,8 @@ class ApiProblemRenderer extends JsonRenderer
     }
 
     /**
-     * @param string|\Laminas\View\Model\ModelInterface $nameOrModel
+     * @param string|ModelInterface $nameOrModel
      * @param array|null                             $values
-     *
      * @return string
      */
     public function render($nameOrModel, $values = null)
