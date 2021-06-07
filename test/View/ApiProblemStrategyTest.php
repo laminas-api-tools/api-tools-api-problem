@@ -8,13 +8,14 @@ use Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy;
 use Laminas\Http\Response;
 use Laminas\View\Model\JsonModel;
+use Laminas\View\Model\ModelInterface as Model;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\ViewEvent;
 use PHPUnit\Framework\TestCase;
 
 class ApiProblemStrategyTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->response = new Response();
         $this->event    = new ViewEvent();
@@ -36,6 +37,7 @@ class ApiProblemStrategyTest extends TestCase
 
     /**
      * @dataProvider invalidViewModels
+     * @param null|Model $model
      */
     public function testSelectRendererReturnsNullIfModelIsNotAnApiProblemModel(?ViewModel $model)
     {
