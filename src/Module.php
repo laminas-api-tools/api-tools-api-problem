@@ -22,6 +22,8 @@ class Module
      * Listener for bootstrap event.
      *
      * Attaches a render event.
+     *
+     * @return void
      */
     public function onBootstrap(MvcEvent $e)
     {
@@ -44,6 +46,8 @@ class Module
      * Listener for the render event.
      *
      * Attaches a rendering/response strategy to the View.
+     *
+     * @return void
      */
     public function onRender(MvcEvent $e)
     {

@@ -25,7 +25,7 @@ class ApiProblemListenerTest extends TestCase
         $this->listener = new ApiProblemListener();
     }
 
-    public function testOnRenderReturnsEarlyWhenNonHttpRequestDetected()
+    public function testOnRenderReturnsEarlyWhenNonHttpRequestDetected(): void
     {
         $request = $this->prophesize(RequestInterface::class)->reveal();
         $this->event->setRequest($request);
@@ -33,7 +33,7 @@ class ApiProblemListenerTest extends TestCase
         $this->assertNull($this->listener->onRender($this->event));
     }
 
-    public function testOnDispatchErrorReturnsAnApiProblemResponseBasedOnCurrentEventException()
+    public function testOnDispatchErrorReturnsAnApiProblemResponseBasedOnCurrentEventException(): void
     {
         $request = new Request();
         $request->getHeaders()->addHeaderLine('Accept', 'application/json');
@@ -57,7 +57,7 @@ class ApiProblemListenerTest extends TestCase
     /**
      * @requires PHP 7.0
      */
-    public function testOnDispatchErrorReturnsAnApiProblemResponseBasedOnCurrentEventThrowable()
+    public function testOnDispatchErrorReturnsAnApiProblemResponseBasedOnCurrentEventThrowable(): void
     {
         $request = new Request();
         $request->getHeaders()->addHeaderLine('Accept', 'application/json');

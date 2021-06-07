@@ -28,12 +28,12 @@ class SendApiProblemResponseListenerTest extends TestCase
         $this->listener = new SendApiProblemResponseListener();
     }
 
-    public function testListenerImplementsResponseSenderInterface()
+    public function testListenerImplementsResponseSenderInterface(): void
     {
         $this->assertInstanceOf(ResponseSenderInterface::class, $this->listener);
     }
 
-    public function testDisplayExceptionsFlagIsFalseByDefault()
+    public function testDisplayExceptionsFlagIsFalseByDefault(): void
     {
         $this->assertFalse($this->listener->displayExceptions());
     }
@@ -41,7 +41,7 @@ class SendApiProblemResponseListenerTest extends TestCase
     /**
      * @depends testDisplayExceptionsFlagIsFalseByDefault
      */
-    public function testDisplayExceptionsFlagIsMutable()
+    public function testDisplayExceptionsFlagIsMutable(): void
     {
         $this->listener->setDisplayExceptions(true);
         $this->assertTrue($this->listener->displayExceptions());
@@ -50,7 +50,7 @@ class SendApiProblemResponseListenerTest extends TestCase
     /**
      * @depends testDisplayExceptionsFlagIsFalseByDefault
      */
-    public function testSendContentDoesNotRenderExceptionsByDefault()
+    public function testSendContentDoesNotRenderExceptionsByDefault(): void
     {
         ob_start();
         $this->listener->sendContent($this->event);
@@ -61,7 +61,7 @@ class SendApiProblemResponseListenerTest extends TestCase
         $this->assertStringNotContainsString($this->exception->getTraceAsString(), $data['detail']);
     }
 
-    public function testEnablingDisplayExceptionFlagRendersExceptionStackTrace()
+    public function testEnablingDisplayExceptionFlagRendersExceptionStackTrace(): void
     {
         $this->listener->setDisplayExceptions(true);
         ob_start();
@@ -74,7 +74,7 @@ class SendApiProblemResponseListenerTest extends TestCase
         $this->assertGreaterThanOrEqual(1, count($data['trace']));
     }
 
-    public function testSendContentDoesNothingIfEventDoesNotContainApiProblemResponse()
+    public function testSendContentDoesNothingIfEventDoesNotContainApiProblemResponse(): void
     {
         $this->event->setResponse(new HttpResponse());
         ob_start();
@@ -84,7 +84,7 @@ class SendApiProblemResponseListenerTest extends TestCase
         $this->assertEmpty($contents);
     }
 
-    public function testSendHeadersMergesApplicationAndProblemHttpHeaders()
+    public function testSendHeadersMergesApplicationAndProblemHttpHeaders(): void
     {
         $appResponse = new HttpResponse();
         $appResponse->getHeaders()->addHeaderLine('Access-Control-Allow-Origin', '*');

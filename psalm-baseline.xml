@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.7.3@38c452ae584467e939d55377aaf83b5a26f19dd1">
+  <file src="config/module.config.php">
+    <UndefinedClass occurrences="12">
+      <code>ApiProblemListener</code>
+      <code>ApiProblemListener</code>
+      <code>ApiProblemRenderer</code>
+      <code>ApiProblemRenderer</code>
+      <code>ApiProblemStrategy</code>
+      <code>ApiProblemStrategy</code>
+      <code>RenderErrorListener</code>
+      <code>RenderErrorListener</code>
+      <code>\ZF\ApiProblem\ApiProblemListener</code>
+      <code>\ZF\ApiProblem\ApiProblemRenderer</code>
+      <code>\ZF\ApiProblem\ApiProblemStrategy</code>
+      <code>\ZF\ApiProblem\RenderErrorListener</code>
+    </UndefinedClass>
+  </file>
+  <file src="src/ApiProblem.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>! is_numeric($status)</code>
+    </DocblockTypeContradiction>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$additional</code>
+    </InvalidPropertyAssignmentValue>
+    <MixedAssignment occurrences="1">
+      <code>$prop</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="2">
+      <code>$this-&gt;problemStatusTitles[$this-&gt;status]</code>
+      <code>$this-&gt;title</code>
+    </MixedReturnStatement>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$title</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(bool) $flag</code>
+    </RedundantCastGivenDocblockType>
+    <RedundantCondition occurrences="1">
+      <code>null === $this-&gt;title</code>
+    </RedundantCondition>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>null !== $this-&gt;title</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/ApiProblemResponse.php">
+    <MixedArgument occurrences="2">
+      <code>$apiProblem-&gt;status</code>
+      <code>$apiProblem-&gt;title</code>
+    </MixedArgument>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$this-&gt;recommendedReasonPhrases[$this-&gt;statusCode]</code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/Exception/DomainException.php">
+    <MissingConstructor occurrences="2">
+      <code>$title</code>
+      <code>$type</code>
+    </MissingConstructor>
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(string) $title</code>
+      <code>(string) $uri</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="src/Factory/ApiProblemListenerFactory.php">
+    <MixedArgument occurrences="1">
+      <code>$filters</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$config['api-tools-api-problem']['accept_filters']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="2">
+      <code>$config</code>
+      <code>$filters</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Factory/ApiProblemRendererFactory.php">
+    <MixedArrayAccess occurrences="1">
+      <code>$config['view_manager']['display_exceptions']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="1">
+      <code>$config</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Factory/ApiProblemStrategyFactory.php">
+    <MixedArgument occurrences="1">
+      <code>$container-&gt;get(ApiProblemRenderer::class)</code>
+    </MixedArgument>
+  </file>
+  <file src="src/Factory/RenderErrorListenerFactory.php">
+    <MixedArrayAccess occurrences="1">
+      <code>$config['view_manager']['display_exceptions']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="1">
+      <code>$config</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Factory/SendApiProblemResponseListenerFactory.php">
+    <MixedArrayAccess occurrences="1">
+      <code>$config['view_manager']['display_exceptions']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="2">
+      <code>$config</code>
+      <code>$response</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Listener/ApiProblemListener.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$exception-&gt;getCode()</code>
+    </InvalidScalarArgument>
+    <MixedArgument occurrences="6">
+      <code>$accept</code>
+      <code>$controllers</code>
+      <code>$model-&gt;getVariable('message')</code>
+      <code>$status</code>
+      <code>$status</code>
+      <code>$type</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$config['api-tools-api-problem']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="7">
+      <code>$accept</code>
+      <code>$config</code>
+      <code>$controller</code>
+      <code>$controllers</code>
+      <code>$exception</code>
+      <code>$status</code>
+      <code>$type</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="1">
+      <code>attach</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="3">
+      <code>get</code>
+      <code>getTypeString</code>
+      <code>has</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyNullReference occurrences="2">
+      <code>attach</code>
+      <code>getParam</code>
+    </PossiblyNullReference>
+    <PossiblyUndefinedMethod occurrences="2">
+      <code>get</code>
+      <code>has</code>
+    </PossiblyUndefinedMethod>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>getStatusCode</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/Listener/RenderErrorListener.php">
+    <MixedAssignment occurrences="1">
+      <code>$exception</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="1">
+      <code>addHeaderLine</code>
+    </MixedMethodCall>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(bool) $flag</code>
+    </RedundantCastGivenDocblockType>
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>getHeaders</code>
+      <code>setStatusCode</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/Listener/SendApiProblemResponseListener.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>self</code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidDocblock occurrences="1">
+      <code>protected $applicationResponse;</code>
+    </InvalidDocblock>
+    <LessSpecificReturnStatement occurrences="2">
+      <code>parent::sendContent($e)</code>
+      <code>parent::sendHeaders($e)</code>
+    </LessSpecificReturnStatement>
+    <MissingPropertyType occurrences="1">
+      <code>$applicationResponse</code>
+    </MissingPropertyType>
+    <MoreSpecificReturnType occurrences="2">
+      <code>self</code>
+      <code>self</code>
+    </MoreSpecificReturnType>
+    <ParamNameMismatch occurrences="2">
+      <code>$e</code>
+      <code>$e</code>
+    </ParamNameMismatch>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$header</code>
+    </PossiblyInvalidArgument>
+    <PossiblyInvalidMethodCall occurrences="1">
+      <code>getFieldName</code>
+    </PossiblyInvalidMethodCall>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(bool) $flag</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="src/Module.php">
+    <MixedAssignment occurrences="6">
+      <code>$eventManager</code>
+      <code>$events</code>
+      <code>$sendResponseListener</code>
+      <code>$serviceManager</code>
+      <code>$services</code>
+      <code>$view</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>array</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="15">
+      <code>attach</code>
+      <code>attach</code>
+      <code>attach</code>
+      <code>attach</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>getEventManager</code>
+      <code>getEventManager</code>
+      <code>getEventManager</code>
+      <code>getServiceManager</code>
+      <code>getServiceManager</code>
+      <code>has</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="1">
+      <code>include __DIR__ . '/../config/module.config.php'</code>
+    </MixedReturnStatement>
+    <PossiblyInvalidMethodCall occurrences="3">
+      <code>getEventManager</code>
+      <code>getServiceManager</code>
+      <code>getServiceManager</code>
+    </PossiblyInvalidMethodCall>
+  </file>
+  <file src="src/View/ApiProblemModel.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$problem</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/View/ApiProblemRenderer.php">
+    <InvalidArgument occurrences="1">
+      <code>$apiProblem-&gt;toArray()</code>
+    </InvalidArgument>
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$values</code>
+    </MoreSpecificImplementedParamType>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(bool) $flag</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="src/View/ApiProblemStrategy.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$this-&gt;renderer</code>
+    </LessSpecificReturnStatement>
+    <MixedAssignment occurrences="2">
+      <code>$headers</code>
+      <code>$status</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>int</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="1">
+      <code>addHeaderLine</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="1">
+      <code>$status</code>
+    </MixedReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>null|ApiProblemRenderer</code>
+    </MoreSpecificReturnType>
+    <PossiblyNullReference occurrences="2">
+      <code>setContent</code>
+      <code>setStatusCode</code>
+    </PossiblyNullReference>
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>getHeaders</code>
+      <code>setStatusCode</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="test/ApiProblemTest.php">
+    <InvalidReturnStatement occurrences="3"/>
+    <InvalidReturnType occurrences="3">
+      <code>array&lt;string, array{0: int}&gt;</code>
+      <code>array&lt;string, array{0: int}&gt;</code>
+      <code>array&lt;string, array{0: int}&gt;</code>
+    </InvalidReturnType>
+    <InvalidScalarArgument occurrences="10">
+      <code>'401'</code>
+      <code>'401'</code>
+      <code>'401'</code>
+      <code>'500'</code>
+      <code>'500'</code>
+      <code>'500'</code>
+      <code>'500'</code>
+      <code>'500'</code>
+      <code>'500'</code>
+      <code>'500'</code>
+    </InvalidScalarArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$titles[$status]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="1">
+      <code>$titles</code>
+    </MixedAssignment>
+    <NullArgument occurrences="1">
+      <code>null</code>
+    </NullArgument>
+  </file>
+  <file src="test/Listener/ApiProblemListenerTest.php">
+    <MixedMethodCall occurrences="4">
+      <code>onDispatchError</code>
+      <code>onDispatchError</code>
+      <code>onRender</code>
+      <code>setRequest</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="2">
+      <code>addHeaderLine</code>
+      <code>addHeaderLine</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="2">
+      <code>addHeaderLine</code>
+      <code>addHeaderLine</code>
+    </PossiblyUndefinedMethod>
+    <UndefinedThisPropertyAssignment occurrences="2">
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;listener</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="4">
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;listener</code>
+      <code>$this-&gt;listener</code>
+      <code>$this-&gt;listener</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="test/Listener/RenderErrorListenerTest.php">
+    <MixedArgument occurrences="21">
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content['describedBy']</code>
+      <code>$content['describedBy']</code>
+      <code>$content['describedBy']</code>
+      <code>$content['detail']</code>
+      <code>$response-&gt;getContent()</code>
+      <code>$response-&gt;getContent()</code>
+      <code>$response-&gt;getContent()</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="14">
+      <code>$content['describedBy']</code>
+      <code>$content['describedBy']</code>
+      <code>$content['describedBy']</code>
+      <code>$content['detail']</code>
+      <code>$content['detail']</code>
+      <code>$content['detail']</code>
+      <code>$content['details']</code>
+      <code>$content['details']</code>
+      <code>$content['status']</code>
+      <code>$content['status']</code>
+      <code>$content['status']</code>
+      <code>$content['title']</code>
+      <code>$content['title']</code>
+      <code>$content['title']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="3">
+      <code>$content</code>
+      <code>$content</code>
+      <code>$content</code>
+    </MixedAssignment>
+    <PossiblyInvalidMethodCall occurrences="6">
+      <code>addHeaderLine</code>
+      <code>addHeaderLine</code>
+      <code>addHeaderLine</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="6">
+      <code>addHeaderLine</code>
+      <code>addHeaderLine</code>
+      <code>addHeaderLine</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+      <code>getFieldValue</code>
+    </PossiblyUndefinedMethod>
+  </file>
+  <file src="test/Listener/SendApiProblemResponseListenerTest.php">
+    <MixedArgument occurrences="5">
+      <code>$data</code>
+      <code>$data['detail']</code>
+      <code>$data['detail']</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;exception-&gt;getTraceAsString()</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="3">
+      <code>$data['detail']</code>
+      <code>$data['detail']</code>
+      <code>$data['trace']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="3">
+      <code>$data</code>
+      <code>$data</code>
+      <code>$headers</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="11">
+      <code>displayExceptions</code>
+      <code>displayExceptions</code>
+      <code>getHeaders</code>
+      <code>getTraceAsString</code>
+      <code>has</code>
+      <code>sendContent</code>
+      <code>sendContent</code>
+      <code>sendContent</code>
+      <code>setDisplayExceptions</code>
+      <code>setDisplayExceptions</code>
+      <code>setResponse</code>
+    </MixedMethodCall>
+    <UndefinedThisPropertyAssignment occurrences="5">
+      <code>$this-&gt;apiProblem</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;exception</code>
+      <code>$this-&gt;listener</code>
+      <code>$this-&gt;response</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="12">
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;exception</code>
+      <code>$this-&gt;listener</code>
+      <code>$this-&gt;listener</code>
+      <code>$this-&gt;listener</code>
+      <code>$this-&gt;listener</code>
+      <code>$this-&gt;listener</code>
+      <code>$this-&gt;listener</code>
+      <code>$this-&gt;response</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="test/ModuleTest.php">
+    <UndefinedMethod occurrences="1">
+      <code>setSharedManager</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/View/ApiProblemRendererTest.php">
+    <MixedArgument occurrences="3">
+      <code>$test</code>
+      <code>$test</code>
+      <code>$test</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$test['trace']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="3">
+      <code>$test</code>
+      <code>$test</code>
+      <code>$test</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="3">
+      <code>render</code>
+      <code>render</code>
+      <code>setDisplayExceptions</code>
+    </MixedMethodCall>
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;renderer</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="2">
+      <code>$this-&gt;renderer</code>
+      <code>$this-&gt;renderer</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="test/View/ApiProblemStrategyTest.php">
+    <MixedAssignment occurrences="3">
+      <code>$header</code>
+      <code>$headers</code>
+      <code>$headers</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="22">
+      <code>get</code>
+      <code>getFieldValue</code>
+      <code>getHeaders</code>
+      <code>getHeaders</code>
+      <code>getStatusCode</code>
+      <code>has</code>
+      <code>has</code>
+      <code>injectResponse</code>
+      <code>injectResponse</code>
+      <code>injectResponse</code>
+      <code>selectRenderer</code>
+      <code>selectRenderer</code>
+      <code>setModel</code>
+      <code>setModel</code>
+      <code>setModel</code>
+      <code>setModel</code>
+      <code>setRenderer</code>
+      <code>setRenderer</code>
+      <code>setRenderer</code>
+      <code>setResult</code>
+      <code>setResult</code>
+      <code>setResult</code>
+    </MixedMethodCall>
+    <UndefinedThisPropertyAssignment occurrences="4">
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;renderer</code>
+      <code>$this-&gt;response</code>
+      <code>$this-&gt;strategy</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="18">
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;event</code>
+      <code>$this-&gt;renderer</code>
+      <code>$this-&gt;renderer</code>
+      <code>$this-&gt;renderer</code>
+      <code>$this-&gt;renderer</code>
+      <code>$this-&gt;response</code>
+      <code>$this-&gt;response</code>
+      <code>$this-&gt;response</code>
+      <code>$this-&gt;strategy</code>
+      <code>$this-&gt;strategy</code>
+      <code>$this-&gt;strategy</code>
+      <code>$this-&gt;strategy</code>
+      <code>$this-&gt;strategy</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+</files>

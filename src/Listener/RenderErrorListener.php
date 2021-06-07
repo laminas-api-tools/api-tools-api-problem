@@ -48,6 +48,8 @@ class RenderErrorListener extends AbstractListenerAggregate
      * the PhpRenderer, when we have no templates.
      *
      * As such, report as an unacceptable response.
+     *
+     * @return void
      */
     public function onRenderError(MvcEvent $e)
     {

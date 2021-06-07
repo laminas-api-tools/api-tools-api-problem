@@ -259,13 +259,11 @@ class ApiProblem
      *
      * If an exception was provided, creates the status code from it;
      * otherwise, code as provided is used.
-     *
-     * @return string
      */
-    protected function getStatus()
+    protected function getStatus(): int
     {
         if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
-            $this->status = $this->createStatusFromException();
+            $this->status = (int) $this->createStatusFromException();
         }
 
         return $this->status;
@@ -346,7 +344,7 @@ class ApiProblem
     /**
      * Create HTTP status from an exception.
      *
-     * @return int
+     * @return int|string
      */
     protected function createStatusFromException()
     {

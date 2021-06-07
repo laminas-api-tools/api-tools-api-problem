@@ -27,7 +27,7 @@ class ModuleTest extends TestCase
         return new EventManager(new SharedEventManager());
     }
 
-    public function testOnBootstrap()
+    public function testOnBootstrap(): void
     {
         $module = new Module();
 

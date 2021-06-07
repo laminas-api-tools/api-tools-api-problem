@@ -14,7 +14,7 @@ use function strtolower;
 
 class ApiProblemResponseTest extends TestCase
 {
-    public function testApiProblemResponseIsAnHttpResponse()
+    public function testApiProblemResponseIsAnHttpResponse(): void
     {
         $response = new ApiProblemResponse(new ApiProblem(400, 'Random error'));
         $this->assertInstanceOf(Response::class, $response);
@@ -23,7 +23,7 @@ class ApiProblemResponseTest extends TestCase
     /**
      * @depends testApiProblemResponseIsAnHttpResponse
      */
-    public function testApiProblemResponseSetsStatusCodeAndReasonPhrase()
+    public function testApiProblemResponseSetsStatusCodeAndReasonPhrase(): void
     {
         $response = new ApiProblemResponse(new ApiProblem(400, 'Random error'));
         $this->assertEquals(400, $response->getStatusCode());
@@ -32,7 +32,7 @@ class ApiProblemResponseTest extends TestCase
         $this->assertEquals('bad request', strtolower($response->getReasonPhrase()));
     }
 
-    public function testApiProblemResponseBodyIsSerializedApiProblem()
+    public function testApiProblemResponseBodyIsSerializedApiProblem(): void
     {
         $additional = [
             'foo' => fopen('php://memory', 'r'),
@@ -54,7 +54,7 @@ class ApiProblemResponseTest extends TestCase
     /**
      * @depends testApiProblemResponseIsAnHttpResponse
      */
-    public function testApiProblemResponseSetsContentTypeHeader()
+    public function testApiProblemResponseSetsContentTypeHeader(): void
     {
         $response = new ApiProblemResponse(new ApiProblem(400, 'Random error'));
         $headers  = $response->getHeaders();
@@ -64,7 +64,7 @@ class ApiProblemResponseTest extends TestCase
         $this->assertEquals(ApiProblem::CONTENT_TYPE, $header->getFieldValue());
     }
 
-    public function testComposeApiProblemIsAccessible()
+    public function testComposeApiProblemIsAccessible(): void
     {
         $apiProblem = new ApiProblem(400, 'Random error');
         $response   = new ApiProblemResponse($apiProblem);
@@ -74,7 +74,7 @@ class ApiProblemResponseTest extends TestCase
     /**
      * @group 14
      */
-    public function testOverridesReasonPhraseIfStatusCodeIsUnknown()
+    public function testOverridesReasonPhraseIfStatusCodeIsUnknown(): void
     {
         $response = new ApiProblemResponse(new ApiProblem(7, 'Random error'));
         $this->assertStringContainsString('Internal Server Error', $response->getReasonPhrase());

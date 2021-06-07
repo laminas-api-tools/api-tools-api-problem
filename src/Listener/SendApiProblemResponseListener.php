@@ -114,7 +114,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
     /**
      * Merge headers set on the application response into the API Problem response.
      */
-    protected function mergeHeaders(HttpResponse $applicationResponse, ApiProblemResponse $apiProblemResponse)
+    protected function mergeHeaders(HttpResponse $applicationResponse, ApiProblemResponse $apiProblemResponse): void
     {
         $apiProblemHeaders = $apiProblemResponse->getHeaders();
         foreach ($applicationResponse->getHeaders() as $header) {
