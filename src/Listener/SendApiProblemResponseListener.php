@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\ApiTools\ApiProblem\Listener;
 
 use Laminas\ApiTools\ApiProblem\ApiProblemResponse;

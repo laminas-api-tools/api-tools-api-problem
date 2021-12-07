@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\ApiTools\ApiProblem;
 
 use Laminas\ApiTools\ApiProblem\ApiProblem;
@@ -94,7 +96,7 @@ class ApiProblemTest extends TestCase
     public function testExceptionsCanTriggerInclusionOfNestedExceptions(): void
     {
         $exceptionChild  = new \Exception('child exception');
-        $exceptionParent = new \Exception('parent exception', null, $exceptionChild);
+        $exceptionParent = new \Exception('parent exception', 0, $exceptionChild);
 
         $apiProblem = new ApiProblem('500', $exceptionParent);
         $apiProblem->setDetailIncludesStackTrace(true);

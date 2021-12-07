@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\ApiTools\ApiProblem;
 
 use Exception;
@@ -136,7 +138,7 @@ class ApiProblem
      * if the status matches any known, the title field will be selected
      * from $problemStatusTitles as a result.
      *
-     * @param int    $status
+     * @param int|string $status
      * @param string|Exception|Throwable $detail
      * @param string $type
      * @param string $title
@@ -165,7 +167,7 @@ class ApiProblem
             $status = 500;
         }
 
-        $this->status = $status;
+        $this->status = (int) $status;
         $this->detail = $detail;
         $this->title  = $title;
 
