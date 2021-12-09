@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\ApiTools\ApiProblem;
 
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
+use Laminas\ApiTools\ApiProblem\Exception\DomainException;
 use Laminas\Http\Header\ContentType;
 use Laminas\Http\Response;
 use PHPUnit\Framework\TestCase;
@@ -20,12 +23,19 @@ class ApiProblemResponseTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
-    /**
-     * @depends testApiProblemResponseIsAnHttpResponse
-     */
     public function testApiProblemResponseSetsStatusCodeAndReasonPhrase(): void
     {
         $response = new ApiProblemResponse(new ApiProblem(400, 'Random error'));
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertIsString($response->getReasonPhrase());
+        $this->assertNotEmpty($response->getReasonPhrase());
+        $this->assertEquals('bad request', strtolower($response->getReasonPhrase()));
+    }
+
+    public function testApiProblemResponseSetsStatusCodeAndReasonPhraseUsingException(): void
+    {
+        $exception = new DomainException('Random error', 400);
+        $response  = new ApiProblemResponse(new ApiProblem(400, $exception));
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertIsString($response->getReasonPhrase());
         $this->assertNotEmpty($response->getReasonPhrase());
@@ -51,9 +61,6 @@ class ApiProblemResponseTest extends TestCase
         $this->assertEquals($expected, json_decode($response->getContent(), true));
     }
 
-    /**
-     * @depends testApiProblemResponseIsAnHttpResponse
-     */
     public function testApiProblemResponseSetsContentTypeHeader(): void
     {
         $response = new ApiProblemResponse(new ApiProblem(400, 'Random error'));
