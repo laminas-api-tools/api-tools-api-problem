@@ -29,9 +29,11 @@ class Module
      */
     public function onBootstrap(MvcEvent $e)
     {
-        $app            = $e->getTarget();
+        $app = $e->getTarget();
+        /** @psalm-suppress PossiblyNullReference */
         $serviceManager = $app->getServiceManager();
-        $eventManager   = $app->getEventManager();
+        /** @psalm-suppress PossiblyNullReference */
+        $eventManager = $app->getEventManager();
 
         $serviceManager->get(Listener\ApiProblemListener::class)->attach($eventManager);
         $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 100);
@@ -53,7 +55,9 @@ class Module
      */
     public function onRender(MvcEvent $e)
     {
-        $app      = $e->getTarget();
+        $app = $e->getTarget();
+
+        /** @psalm-suppress PossiblyNullReference */
         $services = $app->getServiceManager();
 
         if ($services->has('View')) {
