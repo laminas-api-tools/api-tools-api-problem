@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Laminas\ApiTools\ApiProblem\Factory;
 
-use interop\container\containerinterface;
 use Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener;
+use Psr\Container\ContainerInterface;
 
 class ApiProblemListenerFactory
 {
     /**
      * @return ApiProblemListener
      */
-    public function __invoke(containerinterface $container)
+    public function __invoke(ContainerInterface $container)
     {
         $filters = null;
         $config  = [];

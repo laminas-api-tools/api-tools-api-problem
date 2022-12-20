@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Laminas\ApiTools\ApiProblem\Factory;
 
-use interop\container\containerinterface;
 use Laminas\ApiTools\ApiProblem\Listener\SendApiProblemResponseListener;
 use Laminas\Http\Response as HttpResponse;
+use Psr\Container\ContainerInterface;
 
 class SendApiProblemResponseListenerFactory
 {
     /**
      * @return SendApiProblemResponseListener
      */
-    public function __invoke(containerinterface $container)
+    public function __invoke(ContainerInterface $container)
     {
         $config            = $container->get('config');
         $displayExceptions = isset($config['view_manager'])
