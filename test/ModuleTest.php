@@ -40,11 +40,13 @@ class ModuleTest extends TestCase
         $serviceLocator->method('get')->will($this->returnCallback([$this, 'serviceLocator']));
 
         $eventManager = $this->marshalEventManager();
-        $event        = $this->getMockBuilder(MvcEvent::class)->getMock();
 
+        $event = $this->getMockBuilder(MvcEvent::class)->getMock();
+
+        $event->method('getApplication')->willReturn($application);
         $application->method('getServiceManager')->willReturn($serviceLocator);
         $application->method('getEventManager')->willReturn($eventManager);
-        $event->expects($this->once())->method('getTarget')->willReturn($application);
+        $event->expects($this->once())->method('getApplication')->willReturn($application);
 
         $module->onBootstrap($event);
     }
