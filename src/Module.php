@@ -29,7 +29,7 @@ class Module
      */
     public function onBootstrap(MvcEvent $e)
     {
-        $app            = $e->getTarget();
+        $app            = $e->getApplication();
         $serviceManager = $app->getServiceManager();
         $eventManager   = $app->getEventManager();
 
@@ -53,7 +53,7 @@ class Module
      */
     public function onRender(MvcEvent $e)
     {
-        $app      = $e->getTarget();
+        $app      = $e->getApplication();
         $services = $app->getServiceManager();
 
         if ($services->has('View')) {

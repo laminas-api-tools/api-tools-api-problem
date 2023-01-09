@@ -20,6 +20,21 @@ use function ob_start;
 
 class SendApiProblemResponseListenerTest extends TestCase
 {
+    /** @var DomainException */
+    protected $exception;
+
+    /** @var ApiProblem */
+    protected $apiProblem;
+
+    /** @var ApiProblemResponse */
+    protected $response;
+
+    /** @var SendResponseEvent */
+    protected $event;
+
+    /** @var SendApiProblemResponseListener */
+    protected $listener;
+
     protected function setUp(): void
     {
         $this->exception  = new DomainException('Random error', 400);
