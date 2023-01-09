@@ -15,6 +15,9 @@ use function json_decode;
 
 class ApiProblemRendererTest extends TestCase
 {
+    /** @var ApiProblemRenderer */
+    protected $renderer;
+
     protected function setUp(): void
     {
         $this->renderer = new ApiProblemRenderer();

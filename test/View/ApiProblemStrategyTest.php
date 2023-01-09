@@ -8,6 +8,7 @@ use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemModel;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy;
+use Laminas\Http\Header\HeaderInterface;
 use Laminas\Http\Response;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
@@ -16,6 +17,18 @@ use PHPUnit\Framework\TestCase;
 
 class ApiProblemStrategyTest extends TestCase
 {
+    /** @var Response */
+    protected $response;
+
+    /** @var ViewEvent */
+    protected $event;
+
+    /** @var ApiProblemRenderer */
+    protected $renderer;
+
+    /** @var ApiProblemStrategy */
+    protected $strategy;
+
     protected function setUp(): void
     {
         $this->response = new Response();
@@ -73,7 +86,7 @@ class ApiProblemStrategyTest extends TestCase
         $this->strategy->injectResponse($this->event);
         $headers = $this->response->getHeaders();
         $this->assertTrue($headers->has('Content-Type'));
-        $header = $headers->get('Content-Type');
+        $this->assertInstanceOf(HeaderInterface::class, $header = $headers->get('Content-Type'));
         $this->assertEquals(ApiProblem::CONTENT_TYPE, $header->getFieldValue());
     }
 

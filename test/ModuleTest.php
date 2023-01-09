@@ -44,7 +44,7 @@ class ModuleTest extends TestCase
 
         $application->method('getServiceManager')->willReturn($serviceLocator);
         $application->method('getEventManager')->willReturn($eventManager);
-        $event->expects($this->once())->method('getTarget')->willReturn($application);
+        $event->expects($this->once())->method('getApplication')->willReturn($application);
 
         $module->onBootstrap($event);
     }

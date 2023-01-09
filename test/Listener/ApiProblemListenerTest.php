@@ -20,6 +20,12 @@ class ApiProblemListenerTest extends TestCase
 {
     use ProphecyTrait;
 
+    /** @var MvcEvent */
+    protected $event;
+
+    /** @var ApiProblemListener */
+    protected $listener;
+
     protected function setUp(): void
     {
         $this->event = new MvcEvent();
