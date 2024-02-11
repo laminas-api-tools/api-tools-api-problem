@@ -40,7 +40,7 @@ class ApiProblemStrategyTest extends TestCase
     }
 
     /** @psalm-return array<string, array{0: null|ViewModel}> */
-    public function invalidViewModels()
+    public static function invalidViewModels()
     {
         return [
             'null'    => [null],
@@ -91,7 +91,7 @@ class ApiProblemStrategyTest extends TestCase
     }
 
     /** @psalm-return array<array-key, array{0: int}> */
-    public function invalidStatusCodes(): array
+    public static function invalidStatusCodes(): array
     {
         return [
             [0],
