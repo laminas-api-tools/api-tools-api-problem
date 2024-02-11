@@ -32,46 +32,34 @@ class ApiProblem
 
     /**
      * Additional details to include in report.
-     *
-     * @var array
      */
-    protected $additionalDetails = [];
+    protected array $additionalDetails = [];
 
     /**
      * URL describing the problem type; defaults to HTTP status codes.
-     *
-     * @var string
      */
-    protected $type = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
+    protected string $type = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
 
     /**
      * Description of the specific problem.
-     *
-     * @var string|Exception|Throwable
      */
-    protected $detail = '';
+    protected string|Exception|Throwable $detail = '';
 
     /**
      * Whether or not to include a stack trace and previous
      * exceptions when an exception is provided for the detail.
-     *
-     * @var bool
      */
-    protected $detailIncludesStackTrace = false;
+    protected bool $detailIncludesStackTrace = false;
 
     /**
      * HTTP status for the error.
-     *
-     * @var int
      */
-    protected $status;
+    protected int $status;
 
     /**
      * Normalized property names for overloading.
-     *
-     * @var array
      */
-    protected $normalizedProperties = [
+    protected array $normalizedProperties = [
         'type'   => 'type',
         'status' => 'status',
         'title'  => 'title',
@@ -80,10 +68,8 @@ class ApiProblem
 
     /**
      * Status titles for common problems.
-     *
-     * @var array
      */
-    protected $problemStatusTitles = [
+    protected array $problemStatusTitles = [
         // CLIENT ERROR
         400 => 'Bad Request',
         401 => 'Unauthorized',
@@ -127,10 +113,8 @@ class ApiProblem
 
     /**
      * Title of the error.
-     *
-     * @var string
      */
-    protected $title;
+    protected ?string $title;
 
     /**
      * Create an instance using the provided information. If nothing is
@@ -210,10 +194,8 @@ class ApiProblem
 
     /**
      * Cast to an array.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $problem = [
             'type'   => $this->type,
@@ -230,9 +212,8 @@ class ApiProblem
      * stack trace and previous exception information.
      *
      * @param bool $flag
-     * @return ApiProblem
      */
-    public function setDetailIncludesStackTrace($flag)
+    public function setDetailIncludesStackTrace($flag): ApiProblem
     {
         $this->detailIncludesStackTrace = (bool) $flag;
 
@@ -244,10 +225,8 @@ class ApiProblem
      *
      * If an exception was provided, creates the detail message from it;
      * otherwise, detail as provided is used.
-     *
-     * @return string
      */
-    protected function getDetail()
+    protected function getDetail(): string
     {
         if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
             return $this->createDetailFromException();
@@ -281,10 +260,8 @@ class ApiProblem
      * string 'Unknown'.
      *
      * Otherwise, use the title provided.
-     *
-     * @return string
      */
-    protected function getTitle()
+    protected function getTitle(): string
     {
         if (null !== $this->title) {
             return $this->title;
@@ -302,19 +279,13 @@ class ApiProblem
             return get_class($this->detail);
         }
 
-        if (null === $this->title) {
-            return 'Unknown';
-        }
-
-        return $this->title;
+        return 'Unknown';
     }
 
     /**
      * Create detail message from an exception.
-     *
-     * @return string
      */
-    protected function createDetailFromException()
+    protected function createDetailFromException(): string
     {
         /** @var Exception|Throwable $e */
         $e = $this->detail;
@@ -345,10 +316,8 @@ class ApiProblem
 
     /**
      * Create HTTP status from an exception.
-     *
-     * @return int|string
      */
-    protected function createStatusFromException()
+    protected function createStatusFromException(): int|string
     {
         /** @var Exception|Throwable $e */
         $e      = $this->detail;

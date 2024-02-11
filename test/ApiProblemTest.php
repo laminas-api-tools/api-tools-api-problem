@@ -13,7 +13,7 @@ use TypeError;
 class ApiProblemTest extends TestCase
 {
     /** @psalm-return array<string, array{0: int}> */
-    public function statusCodes(): array
+    public static function statusCodes(): array
     {
         return [
             '200' => [200],
@@ -122,7 +122,7 @@ class ApiProblemTest extends TestCase
     }
 
     /** @psalm-return array<string, array{0: int}> */
-    public function knownStatusCodes(): array
+    public static function knownStatusCodes(): array
     {
         return [
             '404' => [404],
@@ -235,7 +235,7 @@ class ApiProblemTest extends TestCase
     }
 
     /** @psalm-return array<string, array{0: int}> */
-    public function invalidStatusCodes(): array
+    public static function invalidStatusCodes(): array
     {
         return [
             '-1'  => [-1],
